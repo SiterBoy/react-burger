@@ -1,225 +1,86 @@
 import styles from './burger-constructor.module.css';
-import { CurrencyIcon, DragIcon, DeleteIcon, LockIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  CurrencyIcon,
+  DragIcon,
+  ConstructorElement, Button
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import {IngredientData} from "../burger-ingredients/burger-ingredients";
+import React from "react";
 
-function BurgerConstructor() {
+interface BurgerConstructorProps {
+  state: IngredientData[]
+}
+
+const BurgerConstructor: React.FC<BurgerConstructorProps> = ({state}) => {
+
+  const bun = state.find((ingredient) =>  ingredient.type === 'bun');
+  const otherIngredients = state.filter((item) => item.type !== 'bun');
+
   return (
     <section className={styles.burgerConstructorContainer}>
       <ul className={styles.burgerConstructorIngridientsList}>
+
+        {bun && (
         <li className={styles.burgerConstructorIngridient}>
           <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
-            <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon} />
+            <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon}/>
           </button>
-
-          <div className={styles.burgerConstructorCard}>
-            <img
-              src="https://code.s3.yandex.net/react/code/bun-01.png"
-              width="80"
-              height="40"
-              className={styles.burgerConstructorIngridientImg}
-              alt="Img"
-            />
-            <span className={styles.burgerConstructorIngridientName}>Краторная булка N-200i (верх)</span>
-
-            <div className={styles.burgerConstructorIngridientPriceConstainer}>
-              <span className={styles.burgerConstructorIngridientPrice}>20</span>
-              <CurrencyIcon type={'primary'} className={styles.burgerConstructorIngridientPriceIcon} />
-            </div>
-
-            <button className={styles.burgerConstructorIngridientDeleteButton} aria-label="Delete ingridient">
-              <LockIcon type={'secondary'} />
-            </button>
-          </div>
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={`${bun.name} (верх)`}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
         </li>
+          )}
 
-        <li className={styles.burgerConstructorIngridient}>
-          <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
-            <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon} />
-          </button>
+        {otherIngredients.length > 0 && (
+          otherIngredients.map((ingredient) => (
+            <li key={ingredient._id} className={styles.burgerConstructorIngridient}>
+              <button
+                className={styles.burgerConstructorMoveButton}
+                aria-label="Open task menu"
+                aria-haspopup="true"
+              >
+                <DragIcon type="primary" className={styles.burgerConstructorDragIcon}/>
+              </button>
+              <ConstructorElement
+                text={ingredient.name}
+                price={ingredient.price}
+                thumbnail={ingredient.image}
+              />
+            </li>
+          ))
+        )}
 
-          <div className={styles.burgerConstructorCard}>
-            <img
-              src="https://code.s3.yandex.net/react/code/bun-01.png"
-              width="80"
-              height="40"
-              className={styles.burgerConstructorIngridientImg}
-              alt="Img"
-            />
-            <span className={styles.burgerConstructorIngridientName}>Краторная булка N-200i (верх)</span>
 
-            <div className={styles.burgerConstructorIngridientPriceConstainer}>
-              <span className={styles.burgerConstructorIngridientPrice}>20</span>
-              <CurrencyIcon type={'primary'} className={styles.burgerConstructorIngridientPriceIcon} />
-            </div>
-
-            <button className={styles.burgerConstructorIngridientDeleteButton} aria-label="Delete ingridient">
-              <DeleteIcon type={'primary'} />
+        {bun && (
+          <li className={styles.burgerConstructorIngridient}>
+            <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
+              <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon}/>
             </button>
-          </div>
-        </li>
 
-        <li className={styles.burgerConstructorIngridient}>
-          <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
-            <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon} />
-          </button>
-
-          <div className={styles.burgerConstructorCard}>
-            <img
-              src="https://code.s3.yandex.net/react/code/bun-01.png"
-              width="80"
-              height="40"
-              className={styles.burgerConstructorIngridientImg}
-              alt="Img"
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={`${bun.name} (низ)`}
+              price={200}
+              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
             />
-            <span className={styles.burgerConstructorIngridientName}>Краторная булка N-200i (верх)</span>
-
-            <div className={styles.burgerConstructorIngridientPriceConstainer}>
-              <span className={styles.burgerConstructorIngridientPrice}>20</span>
-              <CurrencyIcon type={'primary'} className={styles.burgerConstructorIngridientPriceIcon} />
-            </div>
-
-            <button className={styles.burgerConstructorIngridientDeleteButton} aria-label="Delete ingridient">
-              <DeleteIcon type={'primary'} />
-            </button>
-          </div>
         </li>
-
-        <li className={styles.burgerConstructorIngridient}>
-          <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
-            <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon} />
-          </button>
-
-          <div className={styles.burgerConstructorCard}>
-            <img
-              src="https://code.s3.yandex.net/react/code/bun-01.png"
-              width="80"
-              height="40"
-              className={styles.burgerConstructorIngridientImg}
-              alt="Img"
-            />
-            <span className={styles.burgerConstructorIngridientName}>Краторная булка N-200i (верх)</span>
-
-            <div className={styles.burgerConstructorIngridientPriceConstainer}>
-              <span className={styles.burgerConstructorIngridientPrice}>300</span>
-              <CurrencyIcon type={'primary'} className={styles.burgerConstructorIngridientPriceIcon} />
-            </div>
-
-            <button className={styles.burgerConstructorIngridientDeleteButton} aria-label="Delete ingridient">
-              <DeleteIcon type={'primary'} />
-            </button>
-          </div>
-        </li>
-
-        <li className={styles.burgerConstructorIngridient}>
-          <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
-            <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon} />
-          </button>
-
-          <div className={styles.burgerConstructorCard}>
-            <img
-              src="https://code.s3.yandex.net/react/code/bun-01.png"
-              width="80"
-              height="40"
-              className={styles.burgerConstructorIngridientImg}
-              alt="Img"
-            />
-            <span className={styles.burgerConstructorIngridientName}>Краторная булка N-200i (верх)</span>
-
-            <div className={styles.burgerConstructorIngridientPriceConstainer}>
-              <span className={styles.burgerConstructorIngridientPrice}>20</span>
-              <CurrencyIcon type={'primary'} className={styles.burgerConstructorIngridientPriceIcon} />
-            </div>
-
-            <button className={styles.burgerConstructorIngridientDeleteButton} aria-label="Delete ingridient">
-              <DeleteIcon type={'primary'} />
-            </button>
-          </div>
-        </li>
-
-        <li className={styles.burgerConstructorIngridient}>
-          <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
-            <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon} />
-          </button>
-
-          <div className={styles.burgerConstructorCard}>
-            <img
-              src="https://code.s3.yandex.net/react/code/bun-01.png"
-              width="80"
-              height="40"
-              className={styles.burgerConstructorIngridientImg}
-              alt="Img"
-            />
-            <span className={styles.burgerConstructorIngridientName}>Краторная булка N-200i (верх)</span>
-
-            <div className={styles.burgerConstructorIngridientPriceConstainer}>
-              <span className={styles.burgerConstructorIngridientPrice}>20</span>
-              <CurrencyIcon type={'primary'} className={styles.burgerConstructorIngridientPriceIcon} />
-            </div>
-
-            <button className={styles.burgerConstructorIngridientDeleteButton} aria-label="Delete ingridient">
-              <DeleteIcon type={'primary'} />
-            </button>
-          </div>
-        </li>
-
-        <li className={styles.burgerConstructorIngridient}>
-          <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
-            <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon} />
-          </button>
-
-          <div className={styles.burgerConstructorCard}>
-            <img
-              src="https://code.s3.yandex.net/react/code/bun-01.png"
-              width="80"
-              height="40"
-              className={styles.burgerConstructorIngridientImg}
-              alt="Img"
-            />
-            <span className={styles.burgerConstructorIngridientName}>Краторная булка N-200i (верх)</span>
-
-            <div className={styles.burgerConstructorIngridientPriceConstainer}>
-              <span className={styles.burgerConstructorIngridientPrice}>20</span>
-              <CurrencyIcon type={'primary'} className={styles.burgerConstructorIngridientPriceIcon} />
-            </div>
-
-            <button className={styles.burgerConstructorIngridientDeleteButton} aria-label="Delete ingridient">
-              <DeleteIcon type={'primary'} />
-            </button>
-          </div>
-        </li>
-
-        <li className={styles.burgerConstructorIngridient}>
-          <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
-            <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon} />
-          </button>
-
-          <div className={styles.burgerConstructorCard}>
-            <img
-              src="https://code.s3.yandex.net/react/code/bun-01.png"
-              width="80"
-              height="40"
-              className={styles.burgerConstructorIngridientImg}
-              alt="Img"
-            />
-            <span className={styles.burgerConstructorIngridientName}>Краторная булка N-200i (верх)</span>
-
-            <div className={styles.burgerConstructorIngridientPriceConstainer}>
-              <span className={styles.burgerConstructorIngridientPrice}>20</span>
-              <CurrencyIcon type={'primary'} className={styles.burgerConstructorIngridientPriceIcon} />
-            </div>
-
-            <button className={styles.burgerConstructorIngridientDeleteButton} aria-label="Delete ingridient">
-              <LockIcon type={'secondary'} />
-            </button>
-          </div>
-        </li>
+        )}
       </ul>
+
 
       <footer className={styles.burgerConstructorOrderSummary}>
         <div className={styles.burgerConstructorIngridientPriceContainer}>
           <span className={styles.burgerConstructorPrice}>610</span>
-          <CurrencyIcon type={'primary'} className={styles.burgerConstructorTotalPriceIcon} />
+          <CurrencyIcon type={'primary'} className={styles.burgerConstructorTotalPriceIcon}/>
         </div>
-        <button className={styles.burgerConstructorButton}>Оформить заказ</button>
+        <Button htmlType="button" type="primary" size="medium">
+          Оформить заказ
+        </Button>
       </footer>
     </section>
   );
