@@ -17,10 +17,7 @@
     padding: 0;
 }
 
-.burgerConstructorDragIcon {
-    width: 24px;
-    height: 24px;
-}
+
 
 .burgerConstructorCard {
     background-color: #1C1C21;
@@ -33,16 +30,8 @@
     box-sizing: border-box;
 }
 
-.burgerConstructorMoveButton {
-    width: 32px;
-}
 
-.burgerConstructorIngridient {
-    display: flex;
-    justify-content: space-between;
-    height: 80px;
-    align-items: center;
-}
+
 
 .burgerConstructorIngridientImg {
     display: block;
@@ -71,10 +60,15 @@
     font-family: 'Iceland', monospace;
 }
 
+.burgerConstructorMoveButton {
+    width: 32px;
+}
+
 .burgerConstructorIngridient:first-child .burgerConstructorMoveButton,
 .burgerConstructorIngridient:last-child .burgerConstructorMoveButton {
     visibility: hidden;
 }
+
 
 .burgerConstructorIngridient:first-child .burgerConstructorCard {
     border-radius: 88px 88px 40px 40px;

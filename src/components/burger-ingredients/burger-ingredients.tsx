@@ -1,32 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './burger-ingredients.module.css';
-import { Counter, CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import IIngredientData from "../../types/inretfaces/ingridient-data.interface";
+import BurgerIngredientsListItem from "../burger-ingredients-list-item/burger-ingredients-list-item";
+import {IngredientDetails} from "../ingredient-details/ingredient-details";
+import {Modal} from "../modal/modal";
 
-export interface IngredientData {
-  _id: string;
-  name: string;
-  type: 'bun' | 'sauce' | 'main';
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-  calories: number;
-  price: number;
-  image: string;
-  image_mobile: string;
-  image_large: string;
-  __v: number;
-}
+
 
 interface BurgerIngredientsProps {
-  ingredients: IngredientData[];
+  ingredients: IIngredientData[];
 }
 
 const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ ingredients }) => {
-  const [current, setCurrent] = React.useState('buns');
+  const [current, setCurrent] = useState('buns');
+  const [selectedIngredient, setSelectedIngredient] = useState<null | IIngredientData>(null);
 
   const buns = ingredients.filter((el) => el.type === 'bun');
   const sauces = ingredients.filter((el) => el.type === 'sauce');
   const fillings = ingredients.filter((el) => el.type === 'main');
+
+  const closeModal = () => setSelectedIngredient(null);
+
+  const handleOnClick = (item: IIngredientData) => () => {
+    setSelectedIngredient(item);
+  }
+
 
   return (
     <section className={styles.burgerIngredientsContainer}>
@@ -56,15 +55,7 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ ingredients }) =>
             <h2 className={styles.burgerIngredientsCategoryTitle}>Булки</h2>
             <ul className={styles.burgerIngredientsItems}>
               {buns.map((bun) => (
-                <li key={bun._id} className={styles.ingredient}>
-                  <img src={bun.image} alt={bun.name} className={styles.ingredientImage} />
-                  <Counter count={1} size="default" extraClass="m-1" />
-                  <div className={styles.ingredientPriceBlock}>
-                    <span className={styles.ingredientPrice}>{bun.price}</span>
-                    <CurrencyIcon type="primary" />
-                  </div>
-                  <p className={styles.ingredientName}>{bun.name}</p>
-                </li>
+                <BurgerIngredientsListItem onClick={handleOnClick(bun)} ingridient={bun} />
               ))}
             </ul>
           </div>
@@ -75,14 +66,7 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ ingredients }) =>
             <h2 className={styles.burgerIngredientsCategoryTitle}>Соусы</h2>
             <ul className={styles.burgerIngredientsItems}>
               {sauces.map((sauce) => (
-                <li key={sauce._id} className={styles.ingredient}>
-                  <img src={sauce.image} alt={sauce.name} className={styles.ingredientImage} />
-                  <div className={styles.ingredientPriceBlock}>
-                    <span className={styles.ingredientPrice}>{sauce.price}</span>
-                    <CurrencyIcon type="primary" />
-                  </div>
-                  <p className={styles.ingredientName}>{sauce.name}</p>
-                </li>
+                <BurgerIngredientsListItem onClick={handleOnClick(sauce)} ingridient={sauce} />
               ))}
             </ul>
           </div>
@@ -93,19 +77,17 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ ingredients }) =>
             <h2 className={styles.burgerIngredientsCategoryTitle}>Начинки</h2>
             <ul className={styles.burgerIngredientsItems}>
               {fillings.map((filling) => (
-                <li key={filling._id} className={styles.ingredient}>
-                  <img src={filling.image} alt={filling.name} className={styles.ingredientImage} />
-                  <div className={styles.ingredientPriceBlock}>
-                    <span className={styles.ingredientPrice}>{filling.price}</span>
-                    <CurrencyIcon type="primary" />
-                  </div>
-                  <p className={styles.ingredientName}>{filling.name}</p>
-                </li>
+                <BurgerIngredientsListItem onClick={handleOnClick(filling)} ingridient={filling} />
               ))}
             </ul>
           </div>
         )}
       </div>
+
+      <Modal isOpen={!!selectedIngredient} onClose={closeModal} title="Детали ингредиента">
+        <IngredientDetails ingredient={selectedIngredient!} />
+      </Modal>
+
     </section>
   );
 };

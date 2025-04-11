@@ -1,0 +1,12 @@
+.burgerConstructorIngridient {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    align-items: center;
+}
+
+.burgerConstructorDragIcon {
+    width: 24px;
+    height: 24px;
+}
+

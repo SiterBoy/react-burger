@@ -4,17 +4,22 @@ import {
   DragIcon,
   ConstructorElement, Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import {IngredientData} from "../burger-ingredients/burger-ingredients";
-import React from "react";
+import React, {useState} from "react";
+import IIngredientData from "../../types/inretfaces/ingridient-data.interface";
+import BurgerConstructorListItem from "../burger-constructor-list-item/burger-constructor-list-item";
+import {Modal} from "../modal/modal";
+import {OrderDetails} from "../order-details/order-details";
 
 interface BurgerConstructorProps {
-  state: IngredientData[]
+  state: IIngredientData[]
 }
 
 const BurgerConstructor: React.FC<BurgerConstructorProps> = ({state}) => {
-
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const currentOrderId = 699678;
   const bun = state.find((ingredient) =>  ingredient.type === 'bun');
   const otherIngredients = state.filter((item) => item.type !== 'bun');
+  const orderSum = state.reduce((acc, current) => { return acc + current.price}, 0)
 
   return (
     <section className={styles.burgerConstructorContainer}>
@@ -37,20 +42,7 @@ const BurgerConstructor: React.FC<BurgerConstructorProps> = ({state}) => {
 
         {otherIngredients.length > 0 && (
           otherIngredients.map((ingredient) => (
-            <li key={ingredient._id} className={styles.burgerConstructorIngridient}>
-              <button
-                className={styles.burgerConstructorMoveButton}
-                aria-label="Open task menu"
-                aria-haspopup="true"
-              >
-                <DragIcon type="primary" className={styles.burgerConstructorDragIcon}/>
-              </button>
-              <ConstructorElement
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-              />
-            </li>
+           <BurgerConstructorListItem  ingridient={ingredient}/>
           ))
         )}
 
@@ -75,13 +67,16 @@ const BurgerConstructor: React.FC<BurgerConstructorProps> = ({state}) => {
 
       <footer className={styles.burgerConstructorOrderSummary}>
         <div className={styles.burgerConstructorIngridientPriceContainer}>
-          <span className={styles.burgerConstructorPrice}>610</span>
+          <span className={styles.burgerConstructorPrice}>{orderSum}</span>
           <CurrencyIcon type={'primary'} className={styles.burgerConstructorTotalPriceIcon}/>
         </div>
-        <Button htmlType="button" type="primary" size="medium">
+        <Button htmlType="button" type="primary" size="medium" onClick={() => setIsOrderModalOpen(true)}>
           Оформить заказ
         </Button>
       </footer>
+        <Modal isOpen={isOrderModalOpen} onClose={() => setIsOrderModalOpen(false)}>
+          <OrderDetails orderId={currentOrderId}/>
+        </Modal>
     </section>
   );
 }
