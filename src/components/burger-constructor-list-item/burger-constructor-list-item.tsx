@@ -30,9 +30,10 @@ const map: Record<Ttype, string> = {
         isLocked={isLocked}
         type={type}
       />
+      <div className={styles.scrollAreaGap}></div>
     </li>
   );
-};
+ };
 
 interface IBurgerConstructorListItemProps {
   ingridient: IIngredientData;

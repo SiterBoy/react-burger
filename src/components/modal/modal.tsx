@@ -11,7 +11,7 @@ interface IModalProps extends PropsWithChildren {
 }
 const modalRoot = document.getElementById('modals')!;
 
-export const Modal = ({ onClose, title, children, isOpen }: IModalProps) => {
+export const Modal = ({ onClose, children, isOpen }: IModalProps) => {
   useEffect(() => {
     const handleEsc = (e:any) => {
       if (e.key === 'Escape') {
@@ -31,11 +31,6 @@ export const Modal = ({ onClose, title, children, isOpen }: IModalProps) => {
     <>
       <ModalOverlay onClick={onClose} />
       <div className={styles.modal}>
-        {title && (
-          <div className={styles.header}>
-            <h2 className="text text_type_main-large">{title}</h2>
-          </div>
-        )}
         <div className={styles.close} onClick={onClose}>
           <CloseIcon type="primary" />
         </div>

@@ -84,7 +84,7 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ ingredients }) =>
         )}
       </div>
 
-      <Modal isOpen={!!selectedIngredient} onClose={closeModal} title="Детали ингредиента">
+      <Modal isOpen={!!selectedIngredient} onClose={closeModal} >
         <IngredientDetails ingredient={selectedIngredient!} />
       </Modal>
 

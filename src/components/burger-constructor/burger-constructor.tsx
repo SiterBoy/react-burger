@@ -26,25 +26,28 @@ const BurgerConstructor: React.FC<BurgerConstructorProps> = ({state}) => {
       <ul className={styles.burgerConstructorIngridientsList}>
 
         {bun && (
-        <li className={styles.burgerConstructorIngridient}>
-          <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
-            <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon}/>
-          </button>
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={`${bun.name} (верх)`}
-            price={bun.price}
-            thumbnail={bun.image}
-          />
-        </li>
-          )}
-
-        {otherIngredients.length > 0 && (
-          otherIngredients.map((ingredient) => (
-           <BurgerConstructorListItem  ingridient={ingredient}/>
-          ))
+          <li className={styles.burgerConstructorIngridient}>
+            <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
+              <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon}/>
+            </button>
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={`${bun.name} (верх)`}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+            <div className={styles.scrollAreaGap}></div>
+          </li>
         )}
+
+        <div className={styles.burgerConstructorIngridientsListScrollArea}>
+          {otherIngredients.length > 0 && (
+            otherIngredients.map((ingredient) => (
+             <BurgerConstructorListItem  ingridient={ingredient}/>
+            ))
+          )}
+        </div>
 
 
         {bun && (
@@ -60,7 +63,8 @@ const BurgerConstructor: React.FC<BurgerConstructorProps> = ({state}) => {
               price={200}
               thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
             />
-        </li>
+            <div className={styles.scrollAreaGap}></div>
+          </li>
         )}
       </ul>
 
