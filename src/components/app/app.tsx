@@ -19,7 +19,12 @@ const App:React.FC = () =>  {
       }
 
       const data = await response.json() as any;
-      setState((prevData) => [...prevData,...data.data]);
+
+      if (!data.data) {
+        throw new Error('Данные не найдены в ответе сервера');
+      }
+
+      setState(data.data);
 
     } catch (e) {
       console.error(e)
