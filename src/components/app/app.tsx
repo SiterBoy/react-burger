@@ -13,6 +13,11 @@ const App:React.FC = () =>  {
   const fetchData = async (): Promise<void> => {
     try {
       const response = await fetch(APP_DATA_BURGER_API_URL);
+
+      if (!response.ok) {
+        throw new Error(`Ошибка ${response.status}`);
+      }
+
       const data = await response.json() as any;
       setState((prevData) => [...prevData,...data.data]);
 
