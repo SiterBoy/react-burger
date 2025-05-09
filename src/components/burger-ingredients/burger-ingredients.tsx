@@ -1,31 +1,94 @@
-import React, {useState} from 'react';
+import React, {useRef, useEffect} from 'react';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import IIngredientData from "../../types/inretfaces/ingridient-data.interface";
+import IIngredientData from "../../types/interfaces/ingridient-data.interface";
 import BurgerIngredientsListItem from "../burger-ingredients-list-item/burger-ingredients-list-item";
-import {IngredientDetails} from "../ingredient-details/ingredient-details";
-import {Modal} from "../modal/modal";
+import {useAppDispatch, useAppSelector} from '../../store/hooks';
+import {setCurrentTab} from '../../store/slices/tabs-slice';
+import { addIngredient } from '../../store/slices/constructor-slice';
+import { incrementCounter } from '../../store/slices/ingredients-slice';
+import { setIngredientDetails } from '../../store/slices/ingredient-details-slice';
+import { RootState } from '../../store';
 
+const BurgerIngredients: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const currentTab = useAppSelector((state: RootState) => state.tabs.currentTab);
+  const ingredients = useAppSelector((state: RootState) => state.ingredients.items);
+  const containerRef = useRef<HTMLDivElement>(null);
 
+  const buns = ingredients.filter((el: IIngredientData) => el.type === 'bun');
+  const sauces = ingredients.filter((el: IIngredientData) => el.type === 'sauce');
+  const fillings = ingredients.filter((el: IIngredientData) => el.type === 'main');
 
-interface BurgerIngredientsProps {
-  ingredients: IIngredientData[];
-}
+  useEffect(() => {
+    const options = {
+      root: null,
+      threshold: 0,
+      rootMargin: '-100px 0px 0px 0px' 
+    };
 
-const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ ingredients }) => {
-  const [current, setCurrent] = useState('buns');
-  const [selectedIngredient, setSelectedIngredient] = useState<null | IIngredientData>(null);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const type = entry.target.getAttribute('data-type');
+          if (type === 'bun' || type === 'sauce' || type === 'main') {
+            dispatch(setCurrentTab(type));
+          }
+        }
+      });
+    }, options);
 
-  const buns = ingredients.filter((el) => el.type === 'bun');
-  const sauces = ingredients.filter((el) => el.type === 'sauce');
-  const fillings = ingredients.filter((el) => el.type === 'main');
+    const headers = document.querySelectorAll('[data-type]');
+    headers.forEach(header => observer.observe(header));
 
-  const closeModal = () => setSelectedIngredient(null);
+    return () => {
+      headers.forEach(header => observer.unobserve(header));
+    };
+  }, [dispatch]);
 
-  const handleOnClick = (item: IIngredientData) => () => {
-    setSelectedIngredient(item);
-  }
+  const handleTabClick = (type: 'bun' | 'sauce' | 'main') => {
+    dispatch(setCurrentTab(type));
+    const element = document.querySelector(`[data-type="${type}"]`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
+  const handleIngredientClick = (ingredient: IIngredientData) => {
+    dispatch(setIngredientDetails(ingredient));
+  };
+
+  const handleIngredientDrop = (ingredient: IIngredientData) => {
+    dispatch(addIngredient(ingredient));
+    dispatch(incrementCounter(ingredient._id));
+  };
+
+  const renderCategory = (type: 'bun' | 'sauce' | 'main') => {
+    const categoryMap = {
+      'bun': { items: buns, title: 'Булки' },
+      'sauce': { items: sauces, title: 'Соусы' },
+      'main': { items: fillings, title: 'Начинки' }
+    };
+
+    const category = categoryMap[type];
+    if (category.items.length === 0) return null;
+
+    return (
+      <div className={styles.burgerIngredientsCategory}>
+        <h2 data-type={type} className={styles.burgerIngredientsCategoryTitle}>{category.title}</h2>
+        <ul className={styles.burgerIngredientsItems}>
+          {category.items.map((item: IIngredientData) => (
+            <BurgerIngredientsListItem 
+              key={item._id}
+              onClick={() => handleIngredientClick(item)}
+              onDrop={() => handleIngredientDrop(item)}
+              ingridient={item} 
+            />
+          ))}
+        </ul>
+      </div>
+    );
+  };
 
   return (
     <section className={styles.burgerIngredientsContainer}>
@@ -33,61 +96,27 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ ingredients }) =>
 
       <div className={styles.burgerIngredientsTabs}>
         {buns.length > 0 && (
-          <Tab value="buns" active={current === 'buns'} onClick={() => setCurrent('buns')}>
+          <Tab value="bun" active={currentTab === 'bun'} onClick={() => handleTabClick('bun')}>
             Булки
           </Tab>
         )}
         {sauces.length > 0 && (
-          <Tab value="sauces" active={current === 'sauces'} onClick={() => setCurrent('sauces')}>
+          <Tab value="sauce" active={currentTab === 'sauce'} onClick={() => handleTabClick('sauce')}>
             Соусы
           </Tab>
         )}
         {fillings.length > 0 && (
-          <Tab value="fillings" active={current === 'fillings'} onClick={() => setCurrent('fillings')}>
+          <Tab value="main" active={currentTab === 'main'} onClick={() => handleTabClick('main')}>
             Начинки
           </Tab>
         )}
       </div>
 
-      <div className={styles.burgerIngredientsList}>
-        {buns.length > 0 && (
-          <div className={styles.burgerIngredientsCategory}>
-            <h2 className={styles.burgerIngredientsCategoryTitle}>Булки</h2>
-            <ul className={styles.burgerIngredientsItems}>
-              {buns.map((bun) => (
-                <BurgerIngredientsListItem onClick={handleOnClick(bun)} ingridient={bun} />
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {sauces.length > 0 && (
-          <div className={styles.burgerIngredientsCategory}>
-            <h2 className={styles.burgerIngredientsCategoryTitle}>Соусы</h2>
-            <ul className={styles.burgerIngredientsItems}>
-              {sauces.map((sauce) => (
-                <BurgerIngredientsListItem onClick={handleOnClick(sauce)} ingridient={sauce} />
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {fillings.length > 0 && (
-          <div className={styles.burgerIngredientsCategory}>
-            <h2 className={styles.burgerIngredientsCategoryTitle}>Начинки</h2>
-            <ul className={styles.burgerIngredientsItems}>
-              {fillings.map((filling) => (
-                <BurgerIngredientsListItem onClick={handleOnClick(filling)} ingridient={filling} />
-              ))}
-            </ul>
-          </div>
-        )}
+      <div ref={containerRef} className={styles.burgerIngredientsList}>
+        {renderCategory('bun')}
+        {renderCategory('sauce')}
+        {renderCategory('main')}
       </div>
-
-      <Modal isOpen={!!selectedIngredient} onClose={closeModal} >
-        <IngredientDetails ingredient={selectedIngredient!} />
-      </Modal>
-
     </section>
   );
 };

@@ -1,7 +1,9 @@
 import React from 'react';
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import IIngredientData from "../../types/inretfaces/ingridient-data.interface";
+import IIngredientData from "../../types/interfaces/ingridient-data.interface";
 import styles from './burger-constructor-list-item.module.css';
+import { useAppDispatch } from '../../store/hooks';
+import { removeIngredient } from '../../store/slices/constructor-slice';
 
 type Ttype = 'top' | 'bottom'
 
@@ -10,9 +12,16 @@ const map: Record<Ttype, string> = {
   bottom: ' (низ)'
 }
 
- const BurgerConstructorListItem = ({ ingridient, isLocked, type} : IBurgerConstructorListItemProps) => {
+const BurgerConstructorListItem = ({ ingridient, isLocked, type, index, onRemove } : IBurgerConstructorListItemProps) => {
+  const dispatch = useAppDispatch();
   const {_id, name, price, image } = ingridient;
   const finalText = type ? name + map[type] : name;
+
+  const handleRemove = () => {
+    if (typeof index === 'number') {
+      dispatch(removeIngredient(index));
+    }
+  };
 
   return (
     <li key={_id} className={styles.burgerConstructorIngridient}>
@@ -29,6 +38,7 @@ const map: Record<Ttype, string> = {
         thumbnail={image}
         isLocked={isLocked}
         type={type}
+        handleClose={onRemove || handleRemove}
       />
       <div className={styles.scrollAreaGap}></div>
     </li>
@@ -38,7 +48,9 @@ const map: Record<Ttype, string> = {
 interface IBurgerConstructorListItemProps {
   ingridient: IIngredientData;
   type?: "top" | "bottom";
-  isLocked? : boolean;
+  isLocked?: boolean;
+  index?: number;
+  onRemove?: () => void;
 };
 
 export default BurgerConstructorListItem;

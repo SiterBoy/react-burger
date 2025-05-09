@@ -4,29 +4,67 @@ import {
   DragIcon,
   ConstructorElement, Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, {useState} from "react";
-import IIngredientData from "../../types/inretfaces/ingridient-data.interface";
+import React, {useState, useMemo} from "react";
 import BurgerConstructorListItem from "../burger-constructor-list-item/burger-constructor-list-item";
 import {Modal} from "../modal/modal";
 import {OrderDetails} from "../order-details/order-details";
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { removeIngredient, clearConstructor } from '../../store/slices/constructor-slice';
+import { decrementCounter, resetCounters } from '../../store/slices/ingredients-slice';
+import { createOrder, clearOrder } from '../../store/slices/order-slice';
 
-interface BurgerConstructorProps {
-  state: IIngredientData[]
-}
-
-const BurgerConstructor: React.FC<BurgerConstructorProps> = ({state}) => {
+const BurgerConstructor: React.FC = () => {
+  const dispatch = useAppDispatch();
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
-  const currentOrderId = 699678;
-  const bun = state.find((ingredient) =>  ingredient.type === 'bun');
-  const otherIngredients = state.filter((item) => item.type !== 'bun');
-  const orderSum = state.reduce((acc, current) => { return acc + current.price}, 0)
+  
+  const { bun, ingredients } = useAppSelector(state => state.burgerConstructor);
+  const { orderNumber, loading } = useAppSelector(state => state.order);
+
+  const orderSum = useMemo(() => {
+    const bunPrice = bun ? bun.price * 2 : 0;
+    const ingredientsPrice = ingredients.reduce((acc, current) => acc + current.price, 0);
+    return bunPrice + ingredientsPrice;
+  }, [bun, ingredients]);
+
+  const canMakeOrder = () => {
+    return Boolean(bun) && ingredients.length > 0;
+  };
+
+  const handleRemoveIngredient = (index: number) => {
+    const removedIngredient = ingredients[index];
+    dispatch(removeIngredient(index));
+    dispatch(decrementCounter(removedIngredient._id));
+  };
+
+  const handleCreateOrder = async () => {
+    if (!bun) return;
+
+    const ingredientIds = [
+      bun._id, 
+      ...ingredients.map(ing => ing._id),
+      bun._id  
+    ];
+
+    try {
+      await dispatch(createOrder(ingredientIds)).unwrap();
+      setIsOrderModalOpen(true);
+      dispatch(clearConstructor());
+      dispatch(resetCounters());
+    } catch (error) {
+      console.error('Failed to create order:', error);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsOrderModalOpen(false);
+    dispatch(clearOrder());
+  };
 
   return (
     <section className={styles.burgerConstructorContainer}>
       <ul className={styles.burgerConstructorIngridientsList}>
-
         {bun && (
-          <li className={styles.burgerConstructorIngridient}>
+          <li className={styles.burgerConstructorIngridient} key={`${bun._id}-top`}>
             <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
               <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon}/>
             </button>
@@ -42,45 +80,53 @@ const BurgerConstructor: React.FC<BurgerConstructorProps> = ({state}) => {
         )}
 
         <div className={styles.burgerConstructorIngridientsListScrollArea}>
-          {otherIngredients.length > 0 && (
-            otherIngredients.map((ingredient) => (
-             <BurgerConstructorListItem  ingridient={ingredient}/>
+          {ingredients.length > 0 && (
+            ingredients.map((ingredient, index) => (
+              <BurgerConstructorListItem 
+                key={`${ingredient._id}-${index}`}
+                ingridient={ingredient}
+                index={index}
+                onRemove={() => handleRemoveIngredient(index)}
+              />
             ))
           )}
         </div>
 
-
         {bun && (
-          <li className={styles.burgerConstructorIngridient}>
+          <li className={styles.burgerConstructorIngridient} key={`${bun._id}-bottom`}>
             <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
               <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon}/>
             </button>
-
             <ConstructorElement
               type="bottom"
               isLocked={true}
               text={`${bun.name} (низ)`}
-              price={200}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+              price={bun.price}
+              thumbnail={bun.image}
             />
             <div className={styles.scrollAreaGap}></div>
           </li>
         )}
       </ul>
 
-
       <footer className={styles.burgerConstructorOrderSummary}>
         <div className={styles.burgerConstructorIngridientPriceContainer}>
           <span className={styles.burgerConstructorPrice}>{orderSum}</span>
           <CurrencyIcon type={'primary'} className={styles.burgerConstructorTotalPriceIcon}/>
         </div>
-        <Button htmlType="button" type="primary" size="medium" onClick={() => setIsOrderModalOpen(true)}>
-          Оформить заказ
+        <Button 
+          htmlType="button" 
+          type="primary" 
+          size="medium" 
+          onClick={handleCreateOrder}
+          disabled={!canMakeOrder() || loading}
+        >
+          {loading ? 'Загрузка...' : 'Оформить заказ'}
         </Button>
       </footer>
-        <Modal isOpen={isOrderModalOpen} onClose={() => setIsOrderModalOpen(false)}>
-          <OrderDetails orderId={currentOrderId}/>
-        </Modal>
+      <Modal isOpen={isOrderModalOpen} onClose={handleCloseModal}>
+        <OrderDetails orderId={orderNumber || 0}/>
+      </Modal>
     </section>
   );
 }
