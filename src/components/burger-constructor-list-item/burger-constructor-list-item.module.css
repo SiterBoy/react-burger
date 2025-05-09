@@ -1,9 +1,22 @@
 .burgerConstructorIngridient {
     display: flex;
-    justify-content: space-between;
-    height: 80px;
     align-items: center;
     gap: 8px;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.burgerConstructorIngridient:last-child {
+    margin-bottom: 0;
+}
+
+.burgerConstructorMoveButton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: move;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .burgerConstructorDragIcon {
@@ -11,6 +24,25 @@
     height: 24px;
 }
 
+.burgerConstructorIngridient:hover {
+    opacity: 0.8;
+}
+
+.burgerConstructorIngridient:active {
+    opacity: 0.6;
+}
+
+.burgerConstructorIngridient.dragging {
+    opacity: 0.4;
+    cursor: move;
+}
+
+.burgerConstructorIngridient.dragOver {
+    border: 2px dashed #8585AD;
+    border-radius: 8px;
+    padding: 8px;
+    margin: -8px;
+}
 
 .scrollAreaGap{
     width: 8px;
