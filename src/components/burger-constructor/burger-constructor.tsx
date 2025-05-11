@@ -32,10 +32,12 @@ const BurgerConstructor: React.FC = () => {
     return Boolean(bun) && ingredients.length > 0;
   };
 
-  const handleRemoveIngredient = (index: number) => {
-    const removedIngredient = ingredients[index];
-    dispatch(removeIngredient(index));
-    dispatch(decrementCounter(removedIngredient._id));
+  const handleRemoveIngredient = (uuid: string) => {
+    const removedIngredient = ingredients.find(ing => ing.uuid === uuid);
+    if (removedIngredient) {
+      dispatch(removeIngredient(uuid));
+      dispatch(decrementCounter(removedIngredient._id));
+    }
   };
 
   const handleCreateOrder = async () => {
@@ -90,10 +92,10 @@ const BurgerConstructor: React.FC = () => {
             {ingredients.length > 0 && (
               ingredients.map((ingredient, index) => (
                 <BurgerConstructorListItem 
-                  key={`${ingredient._id}-${index}`}
+                  key={ingredient.uuid}
                   ingridient={ingredient}
                   index={index}
-                  onRemove={() => handleRemoveIngredient(index)}
+                  onRemove={handleRemoveIngredient}
                   moveCard={moveCard}
                 />
               ))

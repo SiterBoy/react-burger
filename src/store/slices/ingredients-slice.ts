@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { checkResponse, API_URL } from '../../utils/api';
 import IIngredientData from '../../types/interfaces/ingridient-data.interface';
 import { PayloadAction } from '@reduxjs/toolkit';
 
@@ -16,16 +17,11 @@ const initialState: IngredientsState = {
   counters: {},
 };
 
-const API_URL = 'https://norma.nomoreparties.space/api';
-
 export const fetchIngredients = createAsyncThunk(
   'ingredients/fetchIngredients',
   async () => {
     const response = await fetch(`${API_URL}/ingredients`);
-    const data = await response.json();
-    if (!data.success) {
-      throw new Error('Failed to fetch ingredients');
-    }
+    const data = await checkResponse<{ data: IIngredientData[] }>(response);
     return data.data;
   }
 );
@@ -61,7 +57,7 @@ const ingredientsSlice = createSlice({
       })
       .addCase(fetchIngredients.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to fetch ingredients';
+        state.error = action.error.message || 'Произошла ошибка при загрузке ингредиентов';
       });
   },
 });

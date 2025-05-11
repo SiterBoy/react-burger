@@ -18,12 +18,16 @@ interface DragItem {
   type: string;
 }
 
+interface IConstructorIngredient extends IIngredientData {
+  uuid: string;
+}
+
 interface IBurgerConstructorListItemProps {
-  ingridient: IIngredientData;
+  ingridient: IConstructorIngredient;
   type?: "top" | "bottom";
   isLocked?: boolean;
   index: number;
-  onRemove: () => void;
+  onRemove: (uuid: string) => void;
   moveCard: (dragIndex: number, hoverIndex: number) => void;
 }
 
@@ -47,7 +51,7 @@ const BurgerConstructorListItem: React.FC<IBurgerConstructorListItemProps> = ({
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item: DragItem, monitor: DropTargetMonitor) {
+    hover(item: { index: number }, monitor) {
       if (!ref.current) {
         return;
       }
@@ -78,7 +82,7 @@ const BurgerConstructorListItem: React.FC<IBurgerConstructorListItemProps> = ({
   const [{ isDragging }, drag] = useDrag({
     type: 'ingredient',
     item: () => {
-      return { index, type: 'ingredient' };
+      return { index };
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -87,12 +91,6 @@ const BurgerConstructorListItem: React.FC<IBurgerConstructorListItemProps> = ({
 
   const opacity = isDragging ? 0.4 : 1;
   drag(drop(ref));
-
-  const handleRemove = () => {
-    if (typeof index === 'number') {
-      dispatch(removeIngredient(index));
-    }
-  };
 
   return (
     <li 
@@ -114,7 +112,7 @@ const BurgerConstructorListItem: React.FC<IBurgerConstructorListItemProps> = ({
         thumbnail={image}
         isLocked={isLocked}
         type={type}
-        handleClose={onRemove || handleRemove}
+        handleClose={() => onRemove(ingridient.uuid)}
       />
       <div className={styles.scrollAreaGap}></div>
     </li>

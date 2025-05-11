@@ -1,9 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
 import IIngredientData from '../../types/interfaces/ingridient-data.interface';
+
+interface IConstructorIngredient extends IIngredientData {
+  uuid: string;
+}
 
 interface ConstructorState {
   bun: IIngredientData | null;
-  ingredients: IIngredientData[];
+  ingredients: IConstructorIngredient[];
 }
 
 const initialState: ConstructorState = {
@@ -12,27 +17,41 @@ const initialState: ConstructorState = {
 };
 
 const constructorSlice = createSlice({
-  name: 'constructor',
+  name: 'burgerConstructor',
   initialState,
   reducers: {
-    addIngredient: (state, action: PayloadAction<IIngredientData>) => {
-      const ingredient = { ...action.payload };
-      if (ingredient.type === 'bun') {
-        if (state.bun) {
-          state.bun = null;
+    addIngredient: {
+      reducer: (state, action: PayloadAction<IConstructorIngredient>) => {
+        if (action.payload.type === 'bun') {
+          state.bun = action.payload;
+        } else {
+          state.ingredients.push(action.payload);
         }
-        state.bun = ingredient;
-      } else {
-        state.ingredients.push(ingredient);
+      },
+      prepare: (ingredient: IIngredientData) => {
+        return {
+          payload: {
+            ...ingredient,
+            uuid: uuidv4()
+          }
+        };
       }
     },
-    removeIngredient: (state, action: PayloadAction<number>) => {
-      const index = action.payload;
-      state.ingredients = state.ingredients.filter((_, i) => i !== index);
+    removeIngredient: (state, action: PayloadAction<string>) => {
+      if (state.bun && state.bun._id === action.payload) {
+        state.bun = null;
+      } else {
+        state.ingredients = state.ingredients.filter(
+          (ingredient) => ingredient.uuid !== action.payload
+        );
+      }
     },
-    moveIngredient: (state, action: PayloadAction<{ dragIndex: number; hoverIndex: number }>) => {
+    moveIngredient: (
+      state,
+      action: PayloadAction<{ dragIndex: number; hoverIndex: number }>
+    ) => {
       const { dragIndex, hoverIndex } = action.payload;
-      const draggedItem = { ...state.ingredients[dragIndex] };
+      const draggedItem = state.ingredients[dragIndex];
       state.ingredients.splice(dragIndex, 1);
       state.ingredients.splice(hoverIndex, 0, draggedItem);
     },
@@ -43,5 +62,11 @@ const constructorSlice = createSlice({
   },
 });
 
-export const { addIngredient, removeIngredient, moveIngredient, clearConstructor } = constructorSlice.actions;
+export const {
+  addIngredient,
+  removeIngredient,
+  moveIngredient,
+  clearConstructor,
+} = constructorSlice.actions;
+
 export default constructorSlice.reducer;

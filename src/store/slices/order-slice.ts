@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { checkResponse, API_URL } from '../../utils/api';
 
 interface OrderState {
   orderNumber: number | null;
@@ -12,33 +13,19 @@ const initialState: OrderState = {
   error: null,
 };
 
-const API_URL = 'https://norma.nomoreparties.space/api';
-
 export const createOrder = createAsyncThunk(
   'order/createOrder',
-  async (ingredients: string[]) => {
-    try {
-      const response = await fetch(`${API_URL}/orders`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ingredients }),
-      });
+  async (ingredientIds: string[]) => {
+    const response = await fetch(`${API_URL}/orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ingredients: ingredientIds }),
+    });
 
-      const data = await response.json();
-
-      if (!data.success) {
-        throw new Error(data.message || 'Failed to create order');
-      }
-
-      return data.order.number;
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
-      throw new Error('Failed to create order');
-    }
+    const data = await checkResponse<{ order: { number: number } }>(response);
+    return data.order.number;
   }
 );
 
@@ -63,7 +50,7 @@ const orderSlice = createSlice({
       })
       .addCase(createOrder.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to create order';
+        state.error = action.error.message || 'Произошла ошибка при создании заказа';
       });
   },
 });
