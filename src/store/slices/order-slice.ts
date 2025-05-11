@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { checkResponse, API_URL } from '../../utils/api';
+import { request } from '../../utils/api';
 
 interface OrderState {
   orderNumber: number | null;
@@ -16,15 +16,13 @@ const initialState: OrderState = {
 export const createOrder = createAsyncThunk(
   'order/createOrder',
   async (ingredientIds: string[]) => {
-    const response = await fetch(`${API_URL}/orders`, {
+    const data = await request<{ order: { number: number } }>('/orders', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ ingredients: ingredientIds }),
     });
-
-    const data = await checkResponse<{ order: { number: number } }>(response);
     return data.order.number;
   }
 );

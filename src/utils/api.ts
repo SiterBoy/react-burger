@@ -5,6 +5,8 @@ interface ApiResponse<T> {
   message?: string;
 }
 
+const baseUrl = 'https://norma.nomoreparties.space/api';
+
 export const checkResponse = async <T>(res: Response): Promise<T> => {
   if (!res.ok) {
     const error = await res.json();
@@ -19,4 +21,7 @@ export const checkResponse = async <T>(res: Response): Promise<T> => {
   return data as T;
 };
 
-export const API_URL = 'https://norma.nomoreparties.space/api'; 
+export const request = async <T>(endpoint: string, options?: RequestInit): Promise<T> => {
+  const res = await fetch(`${baseUrl}${endpoint}`, options);
+  return checkResponse<T>(res);
+}; 
