@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { checkResponse, API_URL } from '../../utils/api';
+import { request } from '../../utils/api';
 import IIngredientData from '../../types/interfaces/ingridient-data.interface';
 import { PayloadAction } from '@reduxjs/toolkit';
 
@@ -20,8 +20,7 @@ const initialState: IngredientsState = {
 export const fetchIngredients = createAsyncThunk(
   'ingredients/fetchIngredients',
   async () => {
-    const response = await fetch(`${API_URL}/ingredients`);
-    const data = await checkResponse<{ data: IIngredientData[] }>(response);
+    const data = await request<{ data: IIngredientData[] }>('/ingredients');
     return data.data;
   }
 );
