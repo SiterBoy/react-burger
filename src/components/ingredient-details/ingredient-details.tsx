@@ -1,4 +1,4 @@
-import IIngredientData from "../../types/inretfaces/ingridient-data.interface";
+import IIngredientData from "../../types/interfaces/ingridient-data.interface";
 import styles from './ingredient-details.module.css';
 import React from "react";
 

@@ -1,46 +1,24 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import styles  from './app.module.css';
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import IIngredientData from "../../types/inretfaces/ingridient-data.interface";
+import { useAppDispatch } from '../../store/hooks';
+import { fetchIngredients } from '../../store/slices/ingredients-slice';
 
-const APP_DATA_BURGER_API_URL = 'https://norma.nomoreparties.space/api/ingredients';
+const App: React.FC = () =>  {
+  const dispatch = useAppDispatch();
 
-const App:React.FC = () =>  {
-  const [state, setState] = useState<IIngredientData[]>([]);
-
-  const fetchData = async (): Promise<void> => {
-    try {
-      const response = await fetch(APP_DATA_BURGER_API_URL);
-
-      if (!response.ok) {
-        throw new Error(`Ошибка ${response.status}`);
-      }
-
-      const data = await response.json() as any;
-
-      if (!data.data) {
-        throw new Error('Данные не найдены в ответе сервера');
-      }
-
-      setState(data.data);
-
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
-  React.useEffect(() => {
-    fetchData()
-  } , [])
+  useEffect(() => {
+    dispatch(fetchIngredients());
+  }, [dispatch]);
 
   return (
     <>
       <AppHeader />
       <main className={styles.appMain}>
-        <BurgerIngredients ingredients={state}/>
-        <BurgerConstructor state={state}/>
+        <BurgerIngredients />
+        <BurgerConstructor />
       </main>
     </>
   );

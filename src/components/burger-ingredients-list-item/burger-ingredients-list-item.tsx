@@ -1,15 +1,32 @@
 import React from 'react';
-import IIngredientData from "../../types/inretfaces/ingridient-data.interface";
+import IIngredientData from "../../types/interfaces/ingridient-data.interface";
 import styles from "../burger-ingredients/burger-ingredients.module.css";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useAppSelector } from '../../store/hooks';
 
-const BurgerIngredientsListItem = ({ingridient, onClick}:IBurgerIngredientsListItemProps) => {
+const BurgerIngredientsListItem = ({ingridient, onClick, onDrop}:IBurgerIngredientsListItemProps) => {
   const {_id, image, name, price } = ingridient;
+  const count = useAppSelector(state => state.ingredients.counters[_id] || 0);
+
+  const handleDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.setData('text/plain', _id);
+  };
+
+  const handleDragEnd = () => {
+    onDrop();
+  };
 
   return (
-    <li key={_id} className={styles.ingredient} onClick={onClick}>
+    <li 
+      key={_id} 
+      className={styles.ingredient} 
+      onClick={onClick}
+      draggable
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
       <img src={image} alt={name} className={styles.ingredientImage}/>
-      <Counter count={1} size="default" extraClass="m-1"/>
+      {count > 0 && <Counter count={count} size="default" extraClass="m-1"/>}
       <div className={styles.ingredientPriceBlock}>
         <span className={styles.ingredientPrice}>{price}</span>
         <CurrencyIcon type="primary"/>
@@ -21,7 +38,8 @@ const BurgerIngredientsListItem = ({ingridient, onClick}:IBurgerIngredientsListI
 
 interface IBurgerIngredientsListItemProps {
   ingridient: IIngredientData;
-  onClick: () => void
+  onClick: () => void;
+  onDrop: () => void;
 };
 
 export default BurgerIngredientsListItem;
