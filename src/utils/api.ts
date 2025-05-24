@@ -1,10 +1,3 @@
-interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  order?: { number: number };
-  message?: string;
-}
-
 const baseUrl = 'https://norma.nomoreparties.space/api';
 
 export const checkResponse = async <T>(res: Response): Promise<T> => {
