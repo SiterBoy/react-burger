@@ -1,7 +1,9 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '../../store';
+import { useAppDispatch } from '../../store/hooks';
+import { fetchIngredients } from '../../store/slices/ingredients-slice';
 import AppHeader from '../app-header/app-header';
 import HomePage from '../../pages/home-page';
 import LoginPage from '../../pages/login-page';
@@ -17,7 +19,12 @@ import { IngredientModal } from '../ingredient-modal/ingredient-modal';
 
 const AppRoutes = () => {
   const location = useLocation();
+  const dispatch = useAppDispatch();
   const background = location.state && location.state.background;
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
@@ -42,9 +49,7 @@ const AppRoutes = () => {
           } />
           <Route path="/reset-password" element={
             <ProtectedRouteElement onlyUnAuth>
-              {localStorage.getItem('canReset') === '1'
-                ? <ResetPasswordPage />
-                : <Navigate to="/forgot-password" replace />}
+              <ResetPasswordPage />
             </ProtectedRouteElement>
           } />
           <Route path="/profile/*" element={

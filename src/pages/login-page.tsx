@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector, useForm } from '../store/hooks';
 import { loginUser } from '../store/slices/user-slice';
 import styles from './auth-pages.module.css';
 
@@ -11,7 +11,7 @@ const LoginPage: React.FC = () => {
   const location = useLocation();
   const { isAuth, loading, error } = useAppSelector(state => state.user);
 
-  const [form, setForm] = useState({
+  const { values, handleChange } = useForm({
     email: '',
     password: ''
   });
@@ -23,17 +23,10 @@ const LoginPage: React.FC = () => {
     }
   }, [isAuth, navigate, location]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await dispatch(loginUser(form)).unwrap();
+      await dispatch(loginUser(values)).unwrap();
     } catch (error) {
       console.error('Ошибка входа:', error);
     }
@@ -47,7 +40,7 @@ const LoginPage: React.FC = () => {
           type="email"
           placeholder="E-mail"
           name="email"
-          value={form.email}
+          value={values.email}
           onChange={handleChange}
           required
           onPointerEnterCapture={undefined}
@@ -57,7 +50,7 @@ const LoginPage: React.FC = () => {
           type="password"
           placeholder="Пароль"
           name="password"
-          value={form.password}
+          value={values.password}
           onChange={handleChange}
           required
           onPointerEnterCapture={undefined}

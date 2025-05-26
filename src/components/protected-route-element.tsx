@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../store/hooks';
 import { RootState } from '../store';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const ProtectedRouteElement: React.FC<Props> = ({ onlyUnAuth = false, children }) => {
-  const isAuth = useSelector((state: RootState) => state.user.isAuth);
+  const isAuth = useAppSelector((state: RootState) => state.user.isAuth);
   const location = useLocation();
 
   if (onlyUnAuth && isAuth) {

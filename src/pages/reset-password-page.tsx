@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './auth-pages.module.css';
+import { request } from '../utils/api';
+import { useForm } from '../store/hooks';
 
 const ResetPasswordPage: React.FC = () => {
-  const [form, setForm] = useState({
+  const { values, handleChange } = useForm({
     password: '',
     code: ''
   });
@@ -12,25 +14,17 @@ const ResetPasswordPage: React.FC = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setSuccess(false);
     try {
-      const res = await fetch('https://norma.nomoreparties.space/api/password-reset/reset', {
+      const data: { success: boolean; message?: string } = await request('/password-reset/reset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: form.password, token: form.code })
+        body: JSON.stringify({ password: values.password, token: values.code })
       });
-      const data = await res.json();
       if (data.success) {
         setSuccess(true);
       } else {
@@ -56,16 +50,18 @@ const ResetPasswordPage: React.FC = () => {
               type="password"
               placeholder="Введите новый пароль"
               name="password"
-              value={form.password}
+              value={values.password}
               onChange={handleChange}
-              required onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}          />
+              required
+              onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}          />
           <Input
               type="text"
               placeholder="Введите код из письма"
               name="code"
-              value={form.code}
+              value={values.code}
               onChange={handleChange}
-              required onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}          />
+              required
+              onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}          />
           <Button type="primary" size="medium" htmlType="submit" disabled={loading}>
             {loading ? 'Сохранение...' : 'Сохранить'}
           </Button>
