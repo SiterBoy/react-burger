@@ -27,6 +27,7 @@ const ResetPasswordPage: React.FC = () => {
       });
       if (data.success) {
         setSuccess(true);
+        localStorage.removeItem('canReset');
       } else {
         setError(data.message || 'Ошибка сброса пароля');
       }

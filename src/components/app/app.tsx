@@ -14,6 +14,7 @@ import ProfilePage from '../../pages/profile-page';
 import IngredientDetailsPage from '../../pages/ingredient-details-page';
 import NotFoundPage from '../../pages/not-found-page';
 import ProtectedRouteElement from '../protected-route-element';
+import ResetPasswordGuard from '../reset-password-guard/reset-password-guard';
 import styles from './app.module.css';
 import { IngredientModal } from '../ingredient-modal/ingredient-modal';
 
@@ -49,7 +50,9 @@ const AppRoutes = () => {
           } />
           <Route path="/reset-password" element={
             <ProtectedRouteElement onlyUnAuth>
-              <ResetPasswordPage />
+              <ResetPasswordGuard>
+                <ResetPasswordPage />
+              </ResetPasswordGuard>
             </ProtectedRouteElement>
           } />
           <Route path="/profile/*" element={
