@@ -1,20 +1,27 @@
-export const BASE_URL = 'https://norma.nomoreparties.space/api';
+const BASE_URL = 'https://norma.nomoreparties.space/api';
 
-export const checkResponse = async <T>(res: Response): Promise<T> => {
-  if (!res.ok) {
-    const error = await res.json();
+interface RequestOptions extends RequestInit {
+  headers?: HeadersInit;
+}
+
+export const request = async <T>(endpoint: string, options: RequestOptions = {}): Promise<T> => {
+  const accessToken = localStorage.getItem('accessToken');
+  
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    ...(accessToken && { 'authorization': accessToken }),
+    ...options.headers,
+  };
+
+  const response = await fetch(`${BASE_URL}${endpoint}`, {
+    ...options,
+    headers,
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
     throw new Error(error.message || 'Что-то пошло не так');
   }
 
-  const data = await res.json();
-  if (!data.success) {
-    throw new Error(data.message || 'Что-то пошло не так');
-  }
-
-  return data as T;
-};
-
-export const request = async <T>(endpoint: string, options?: RequestInit): Promise<T> => {
-  const res = await fetch(`${BASE_URL}${endpoint}`, options);
-  return checkResponse<T>(res);
+  return response.json();
 }; 

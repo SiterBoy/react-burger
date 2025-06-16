@@ -6,6 +6,7 @@ import constructorReducer from './slices/constructor-slice';
 import orderReducer from './slices/order-slice';
 import tabsReducer from './slices/tabs-slice';
 import ingredientDetailsReducer from './slices/ingredient-details-slice';
+import appReducer from './slices/app-slice';
 import { RootState } from './types';
 
 const store = configureStore({
@@ -15,7 +16,8 @@ const store = configureStore({
     constructor: constructorReducer,
     order: orderReducer,
     tabs: tabsReducer,
-    ingredientDetails: ingredientDetailsReducer
+    ingredientDetails: ingredientDetailsReducer,
+    app: appReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(authMiddleware)

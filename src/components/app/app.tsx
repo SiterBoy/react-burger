@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from '../../store';
 import { useAppDispatch } from '../../store/hooks';
 import { fetchIngredients } from '../../store/slices/ingredients-slice';
+import { init } from '../../store/slices/app-slice';
 import AppHeader from '../app-header/app-header';
 import HomePage from '../../pages/home-page';
 import LoginPage from '../../pages/login-page';
@@ -25,6 +26,7 @@ const AppRoutes = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
+    dispatch(init());
   }, [dispatch]);
 
   return (

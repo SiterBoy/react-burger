@@ -10,11 +10,16 @@ export const authMiddleware = (store: any) => (next: any) => async (action: any)
     if (accessToken && refreshTokenValue) {
       try {
         await store.dispatch(getUser());
-      } catch (error) {
-        try {
-          await store.dispatch(refreshToken());
-          await store.dispatch(getUser());
-        } catch (refreshError) {
+      } catch (error: any) {
+        if (error.message === 'jwt expired') {
+          try {
+            await store.dispatch(refreshToken());
+            await store.dispatch(getUser());
+          } catch (refreshError) {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+          }
+        } else {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
         }
