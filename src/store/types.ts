@@ -16,7 +16,7 @@ export interface RootState {
     items: Array<{
       _id: string;
       name: string;
-      type: string;
+      type: TabType;
       proteins: number;
       fat: number;
       carbohydrates: number;
@@ -31,7 +31,7 @@ export interface RootState {
     error: string | null;
     counters: Record<string, number>;
   };
-  constructor: {
+  burgerConstructor: {
     bun: any | null;
     ingredients: any[];
   };

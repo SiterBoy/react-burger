@@ -7,13 +7,12 @@ import orderReducer from './slices/order-slice';
 import tabsReducer from './slices/tabs-slice';
 import ingredientDetailsReducer from './slices/ingredient-details-slice';
 import appReducer from './slices/app-slice';
-import { RootState } from './types';
 
 const store = configureStore({
   reducer: {
     user: userReducer,
     ingredients: ingredientsReducer,
-    constructor: constructorReducer,
+    burgerConstructor: constructorReducer,
     order: orderReducer,
     tabs: tabsReducer,
     ingredientDetails: ingredientDetailsReducer,

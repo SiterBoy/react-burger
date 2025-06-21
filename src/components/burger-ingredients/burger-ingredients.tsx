@@ -9,7 +9,7 @@ import {setCurrentTab} from '../../store/slices/tabs-slice';
 import { addIngredient } from '../../store/slices/constructor-slice';
 import { incrementCounter } from '../../store/slices/ingredients-slice';
 import { setIngredientDetails } from '../../store/slices/ingredient-details-slice';
-import { RootState } from '../../store';
+import { RootState } from '../../store/types';
 
 const BurgerIngredients: React.FC = () => {
   const dispatch = useAppDispatch();

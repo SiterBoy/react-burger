@@ -7,11 +7,15 @@ interface RequestOptions extends RequestInit {
 export const request = async <T>(endpoint: string, options: RequestOptions = {}): Promise<T> => {
   const accessToken = localStorage.getItem('accessToken');
   
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...(accessToken && { 'authorization': accessToken }),
-    ...options.headers,
+    ...(options.headers as Record<string, string> || {}),
   };
+
+  // Добавляем authorization только если токен существует
+  if (accessToken) {
+    headers.authorization = `Bearer ${accessToken}`;
+  }
 
   const response = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,

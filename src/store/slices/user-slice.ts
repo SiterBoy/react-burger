@@ -26,7 +26,7 @@ export const registerUser = createAsyncThunk(
         body: JSON.stringify({ email, password, name }),
       }
     );
-    localStorage.setItem('accessToken', res.accessToken);
+    localStorage.setItem('accessToken', res.accessToken.replace(/^Bearer /, ''));
     localStorage.setItem('refreshToken', res.refreshToken);
     return res.user;
   }
@@ -43,7 +43,7 @@ export const loginUser = createAsyncThunk(
         body: JSON.stringify({ email, password }),
       }
     );
-    localStorage.setItem('accessToken', res.accessToken);
+    localStorage.setItem('accessToken', res.accessToken.replace(/^Bearer /, ''));
     localStorage.setItem('refreshToken', res.refreshToken);
     return res.user;
   }
@@ -73,7 +73,7 @@ export const refreshToken = createAsyncThunk(
         body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
       }
     );
-    localStorage.setItem('accessToken', res.accessToken);
+    localStorage.setItem('accessToken', res.accessToken.replace(/^Bearer /, ''));
     localStorage.setItem('refreshToken', res.refreshToken);
     return res;
   }
@@ -82,13 +82,8 @@ export const refreshToken = createAsyncThunk(
 export const getUser = createAsyncThunk(
   'user/getUser',
   async (_, thunkAPI) => {
-    const accessToken = localStorage.getItem('accessToken');
     const res = await request<{ user: { email: string; name: string } }>('/auth/user', {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'authorization': accessToken || '',
-      },
     });
     return res.user;
   }
@@ -97,13 +92,8 @@ export const getUser = createAsyncThunk(
 export const updateUser = createAsyncThunk(
   'user/updateUser',
   async (data: { name: string; email: string; password?: string }, thunkAPI) => {
-    const accessToken = localStorage.getItem('accessToken');
     const res = await request<{ user: { email: string; name: string } }>('/auth/user', {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'authorization': accessToken || '',
-      },
       body: JSON.stringify(data),
     });
     return res.user;
@@ -158,6 +148,12 @@ const userSlice = createSlice({
       .addCase(getUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Ошибка получения пользователя';
+        if (action.error.message?.includes('jwt') || 
+            action.error.message?.includes('invalid') ||
+            action.error.message?.includes('Token')) {
+          state.user = null;
+          state.isAuth = false;
+        }
       })
       .addCase(updateUser.pending, (state) => {
         state.loading = true;
