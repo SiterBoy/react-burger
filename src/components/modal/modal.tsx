@@ -11,9 +11,9 @@ interface IModalProps extends PropsWithChildren {
 }
 const modalRoot = document.getElementById('modals')!;
 
-export const Modal = ({ onClose, children, isOpen }: IModalProps) => {
+export const Modal: React.FC<IModalProps> = ({ onClose, children, isOpen }) => {
   useEffect(() => {
-    const handleEsc = (e:any) => {
+    const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       }

@@ -24,13 +24,13 @@ const BurgerIngredients: React.FC = () => {
   const fillings = ingredients.filter((el: IIngredientData) => el.type === 'main');
 
   useEffect(() => {
-    const options = {
+    const options: IntersectionObserverInit = {
       root: null,
       threshold: 0,
       rootMargin: '-100px 0px 0px 0px' 
     };
 
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const type = entry.target.getAttribute('data-type');
@@ -49,7 +49,7 @@ const BurgerIngredients: React.FC = () => {
     };
   }, [dispatch]);
 
-  const handleTabClick = (type: 'bun' | 'sauce' | 'main') => {
+  const handleTabClick = (type: 'bun' | 'sauce' | 'main'): void => {
     dispatch(setCurrentTab(type));
     const element = document.querySelector(`[data-type="${type}"]`);
     if (element) {
@@ -57,12 +57,12 @@ const BurgerIngredients: React.FC = () => {
     }
   };
 
-  const handleIngredientClick = (ingredient: IIngredientData) => {
+  const handleIngredientClick = (ingredient: IIngredientData): void => {
     dispatch(setIngredientDetails(ingredient));
     navigate(`/ingredients/${ingredient._id}`, { state: { background: location } });
   };
 
-  const handleIngredientDrop = (ingredient: IIngredientData) => {
+  const handleIngredientDrop = (ingredient: IIngredientData): void => {
     dispatch(addIngredient(ingredient));
     dispatch(incrementCounter(ingredient._id));
   };

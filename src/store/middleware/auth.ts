@@ -10,13 +10,15 @@ export const authMiddleware = (store: any) => (next: any) => async (action: any)
     if (accessToken && refreshTokenValue) {
       try {
         await store.dispatch(getUser()).unwrap();
-      } catch (error: any) {
-        if (error.message === 'jwt expired' || 
-            error.message === 'jwt malformed' || 
-            error.message === 'invalid token' ||
-            error.message === 'Token is invalid' ||
-            error.message?.includes('jwt') ||
-            error.message?.includes('invalid')) {
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        
+        if (errorMessage === 'jwt expired' || 
+            errorMessage === 'jwt malformed' || 
+            errorMessage === 'invalid token' ||
+            errorMessage === 'Token is invalid' ||
+            errorMessage?.includes('jwt') ||
+            errorMessage?.includes('invalid')) {
           try {
             await store.dispatch(refreshToken()).unwrap();
             await store.dispatch(getUser()).unwrap();

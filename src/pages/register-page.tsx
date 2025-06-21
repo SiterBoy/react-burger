@@ -3,12 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAppDispatch, useAppSelector, useForm } from '../store/hooks';
 import { registerUser } from '../store/slices/user-slice';
+import { RootState } from '../store/types';
 import styles from './auth-pages.module.css';
 
 const RegisterPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useAppSelector(state => state.user);
+  const { loading, error } = useAppSelector((state: RootState) => state.user);
 
   const { values, handleChange } = useForm({
     name: '',

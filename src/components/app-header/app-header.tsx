@@ -2,7 +2,7 @@ import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-devel
 import { Link, useLocation } from 'react-router-dom';
 import styles from './app-header.module.css';
 
-function AppHeader () {
+const AppHeader: React.FC = () => {
   const location = useLocation();
 
   const isActive = (path: string) => {

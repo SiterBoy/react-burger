@@ -1,10 +1,11 @@
+import React from 'react';
 import styles from './order-details.module.css';
 
 interface IOrderDetailsProps {
   orderId: number;
 }
 
-export const OrderDetails = ({orderId}: IOrderDetailsProps) => {
+export const OrderDetails: React.FC<IOrderDetailsProps> = ({orderId}) => {
   return (
     <div className={styles.wrapper}>
       <p className="text text_type_digits-large mb-8">{orderId}</p>

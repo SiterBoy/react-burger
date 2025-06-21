@@ -30,8 +30,9 @@ const ForgotPasswordPage: React.FC = () => {
       } else {
         setError(data.message || 'Ошибка восстановления пароля');
       }
-    } catch (err: any) {
-      setError(err.message || 'Ошибка восстановления пароля');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      console.error('Ошибка восстановления пароля:', errorMessage);
     } finally {
       setLoading(false);
     }
