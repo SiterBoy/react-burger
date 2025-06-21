@@ -2,9 +2,7 @@ import React, { useRef } from 'react';
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import IIngredientData from "../../types/interfaces/ingridient-data.interface";
 import styles from './burger-constructor-list-item.module.css';
-import { useAppDispatch } from '../../store/hooks';
-import { removeIngredient } from '../../store/slices/constructor-slice';
-import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
+import { useDrag, useDrop } from 'react-dnd';
 
 type Ttype = 'top' | 'bottom'
 
@@ -39,7 +37,6 @@ const BurgerConstructorListItem: React.FC<IBurgerConstructorListItemProps> = ({
   onRemove,
   moveCard 
 }) => {
-  const dispatch = useAppDispatch();
   const { name, price, image } = ingridient;
   const finalText = type ? name + map[type] : name;
   const ref = useRef<HTMLLIElement>(null);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import IIngredientData from "../../types/interfaces/ingridient-data.interface";
 import styles from "../burger-ingredients/burger-ingredients.module.css";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -7,6 +8,8 @@ import { useAppSelector } from '../../store/hooks';
 const BurgerIngredientsListItem = ({ingridient, onClick, onDrop}:IBurgerIngredientsListItemProps) => {
   const {_id, image, name, price } = ingridient;
   const count = useAppSelector(state => state.ingredients.counters[_id] || 0);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleDragStart = (e: React.DragEvent) => {
     e.dataTransfer.setData('text/plain', _id);
@@ -16,11 +19,15 @@ const BurgerIngredientsListItem = ({ingridient, onClick, onDrop}:IBurgerIngredie
     onDrop();
   };
 
+  const handleClick = () => {
+    navigate(`/ingredients/${_id}`, { state: { background: location } });
+  };
+
   return (
     <li 
       key={_id} 
       className={styles.ingredient} 
-      onClick={onClick}
+      onClick={handleClick}
       draggable
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
@@ -40,6 +47,6 @@ interface IBurgerIngredientsListItemProps {
   ingridient: IIngredientData;
   onClick: () => void;
   onDrop: () => void;
-};
+}
 
 export default BurgerIngredientsListItem;

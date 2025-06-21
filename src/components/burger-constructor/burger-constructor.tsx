@@ -5,6 +5,7 @@ import {
   ConstructorElement, Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, {useState, useMemo} from "react";
+import { useNavigate } from 'react-router-dom';
 import BurgerConstructorListItem from "../burger-constructor-list-item/burger-constructor-list-item";
 import {Modal} from "../modal/modal";
 import {OrderDetails} from "../order-details/order-details";
@@ -17,10 +18,12 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const BurgerConstructor: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   
   const { bun, ingredients } = useAppSelector(state => state.burgerConstructor);
   const { orderNumber, loading } = useAppSelector(state => state.order);
+  const { isAuth } = useAppSelector(state => state.user);
 
   const orderSum = useMemo(() => {
     const bunPrice = bun ? bun.price * 2 : 0;
@@ -41,6 +44,11 @@ const BurgerConstructor: React.FC = () => {
   };
 
   const handleCreateOrder = async () => {
+    if (!isAuth) {
+      navigate('/login', { state: { from: { pathname: '/' } } });
+      return;
+    }
+
     if (!bun) return;
 
     const ingredientIds = [

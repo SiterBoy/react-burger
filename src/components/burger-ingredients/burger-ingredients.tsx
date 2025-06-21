@@ -1,4 +1,5 @@
 import React, {useRef, useEffect} from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IIngredientData from "../../types/interfaces/ingridient-data.interface";
@@ -12,6 +13,8 @@ import { RootState } from '../../store';
 
 const BurgerIngredients: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const currentTab = useAppSelector((state: RootState) => state.tabs.currentTab);
   const ingredients = useAppSelector((state: RootState) => state.ingredients.items);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -56,6 +59,7 @@ const BurgerIngredients: React.FC = () => {
 
   const handleIngredientClick = (ingredient: IIngredientData) => {
     dispatch(setIngredientDetails(ingredient));
+    navigate(`/ingredients/${ingredient._id}`, { state: { background: location } });
   };
 
   const handleIngredientDrop = (ingredient: IIngredientData) => {
