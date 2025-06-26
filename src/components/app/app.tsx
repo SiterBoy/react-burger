@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from '../../store';
-import { useAppDispatch } from '../../store/hooks';
+import { store } from '../../store/store';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchIngredients } from '../../store/slices/ingredients-slice';
 import { init } from '../../store/slices/app-slice';
+import { RootState } from '../../store/types';
 import AppHeader from '../app-header/app-header';
 import HomePage from '../../pages/home-page';
 import LoginPage from '../../pages/login-page';
@@ -23,11 +24,30 @@ const AppRoutes = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const background = location.state && location.state.background;
+  const { loading } = useAppSelector((state: RootState) => state.user);
+  const { initialized } = useAppSelector((state: RootState) => state.app);
 
   useEffect(() => {
     dispatch(fetchIngredients());
     dispatch(init());
   }, [dispatch]);
+
+  // Показываем загрузку пока не завершится инициализация
+  if (!initialized || loading) {
+    return (
+      <div className={styles.app}>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '100vh',
+          fontSize: '18px'
+        }}>
+          Загрузка...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.app}>

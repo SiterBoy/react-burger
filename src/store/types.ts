@@ -1,6 +1,11 @@
 import { Store } from '@reduxjs/toolkit';
+import IIngredientData from '../types/interfaces/ingridient-data.interface';
 
 export type TabType = 'bun' | 'sauce' | 'main';
+
+export interface IConstructorIngredient extends IIngredientData {
+  uuid: string;
+}
 
 export interface RootState {
   user: {
@@ -16,7 +21,7 @@ export interface RootState {
     items: Array<{
       _id: string;
       name: string;
-      type: string;
+      type: TabType;
       proteins: number;
       fat: number;
       carbohydrates: number;
@@ -31,9 +36,9 @@ export interface RootState {
     error: string | null;
     counters: Record<string, number>;
   };
-  constructor: {
-    bun: any | null;
-    ingredients: any[];
+  burgerConstructor: {
+    bun: IConstructorIngredient | null;
+    ingredients: IConstructorIngredient[];
   };
   order: {
     orderNumber: number | null;
@@ -44,7 +49,7 @@ export interface RootState {
     currentTab: TabType;
   };
   ingredientDetails: {
-    ingredient: any | null;
+    ingredient: IIngredientData | null;
   };
 }
 

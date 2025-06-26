@@ -4,10 +4,11 @@ import IIngredientData from "../../types/interfaces/ingridient-data.interface";
 import styles from "../burger-ingredients/burger-ingredients.module.css";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppSelector } from '../../store/hooks';
+import { RootState } from '../../store/types';
 
-const BurgerIngredientsListItem = ({ingridient, onClick, onDrop}:IBurgerIngredientsListItemProps) => {
+const BurgerIngredientsListItem: React.FC<IBurgerIngredientsListItemProps> = ({ingridient, onClick, onDrop}) => {
   const {_id, image, name, price } = ingridient;
-  const count = useAppSelector(state => state.ingredients.counters[_id] || 0);
+  const count = useAppSelector((state: RootState) => state.ingredients.counters[_id] || 0);
   const navigate = useNavigate();
   const location = useLocation();
 

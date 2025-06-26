@@ -31,8 +31,10 @@ const ResetPasswordPage: React.FC = () => {
       } else {
         setError(data.message || 'Ошибка сброса пароля');
       }
-    } catch (err: any) {
-      setError(err.message || 'Ошибка сброса пароля');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      console.error('Ошибка сброса пароля:', errorMessage);
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

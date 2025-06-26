@@ -10,6 +10,7 @@ import BurgerConstructorListItem from "../burger-constructor-list-item/burger-co
 import {Modal} from "../modal/modal";
 import {OrderDetails} from "../order-details/order-details";
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { RootState } from '../../store/types';
 import { removeIngredient, clearConstructor, moveIngredient } from '../../store/slices/constructor-slice';
 import { decrementCounter, resetCounters } from '../../store/slices/ingredients-slice';
 import { createOrder, clearOrder } from '../../store/slices/order-slice';
@@ -21,9 +22,9 @@ const BurgerConstructor: React.FC = () => {
   const navigate = useNavigate();
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   
-  const { bun, ingredients } = useAppSelector(state => state.burgerConstructor);
-  const { orderNumber, loading } = useAppSelector(state => state.order);
-  const { isAuth } = useAppSelector(state => state.user);
+  const { bun, ingredients } = useAppSelector((state: RootState) => state.burgerConstructor);
+  const { orderNumber, loading } = useAppSelector((state: RootState) => state.order);
+  const { isAuth } = useAppSelector((state: RootState) => state.user);
 
   const orderSum = useMemo(() => {
     const bunPrice = bun ? bun.price * 2 : 0;

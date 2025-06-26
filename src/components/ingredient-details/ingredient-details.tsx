@@ -6,7 +6,7 @@ interface IIngredientDetailsIngredientDetailsProps{
 ingredient: IIngredientData
 }
 
-export const IngredientDetails = ({ ingredient }:IIngredientDetailsIngredientDetailsProps) => {
+export const IngredientDetails: React.FC<IIngredientDetailsIngredientDetailsProps> = ({ ingredient }) => {
   if (!ingredient) return null;
 
   return (
