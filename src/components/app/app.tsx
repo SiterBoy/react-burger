@@ -19,6 +19,8 @@ import ProtectedRouteElement from '../protected-route-element';
 import ResetPasswordGuard from '../reset-password-guard/reset-password-guard';
 import styles from './app.module.css';
 import { IngredientModal } from '../ingredient-modal/ingredient-modal';
+import FeedPage from '../../pages/feed-page';
+import OrderDetailsPage from '../../pages/order-details-page';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -55,6 +57,8 @@ const AppRoutes = () => {
       <main className={styles.appMain}>
         <Routes location={background || location}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/feed" element={<FeedPage />} />
+          <Route path="/feed/:number" element={<OrderDetailsPage />} />
           <Route path="/login" element={
             <ProtectedRouteElement onlyUnAuth>
               <LoginPage />
