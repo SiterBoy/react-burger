@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './order-card.module.css';
 
 interface OrderCardProps {
@@ -15,9 +15,14 @@ interface OrderCardProps {
 
 const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleClick = () => {
-    navigate(`/feed/${order.number}`);
+    if (location.pathname.startsWith('/profile/orders')) {
+      navigate(`/profile/orders/${order.number}`, { state: { background: location } });
+    } else {
+      navigate(`/feed/${order.number}`, { state: { background: location } });
+    }
   };
 
   return (

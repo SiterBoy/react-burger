@@ -23,6 +23,8 @@ import FeedPage from '../../pages/feed-page';
 import OrderDetailsPage from '../../pages/order-details-page';
 import ProfileOrdersPage from '../../pages/profile-orders-page';
 import ProfileOrderDetailsPage from '../../pages/profile-order-details-page';
+import OrderDetailsModal from '../order-details-modal/order-details-modal';
+import ProfileOrderDetailsModal from '../order-details-modal/profile-order-details-modal';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -94,6 +96,8 @@ const AppRoutes = () => {
         {background && (
           <Routes>
             <Route path="/ingredients/:id" element={<IngredientModal />} />
+            <Route path="/feed/:number" element={<OrderDetailsModal />} />
+            <Route path="/profile/orders/:number" element={<ProfileOrderDetailsModal />} />
           </Routes>
         )}
       </main>
