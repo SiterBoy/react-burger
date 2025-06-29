@@ -21,6 +21,8 @@ import styles from './app.module.css';
 import { IngredientModal } from '../ingredient-modal/ingredient-modal';
 import FeedPage from '../../pages/feed-page';
 import OrderDetailsPage from '../../pages/order-details-page';
+import ProfileOrdersPage from '../../pages/profile-orders-page';
+import ProfileOrderDetailsPage from '../../pages/profile-order-details-page';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -34,7 +36,6 @@ const AppRoutes = () => {
     dispatch(init());
   }, [dispatch]);
 
-  // Показываем загрузку пока не завершится инициализация
   if (!initialized || loading) {
     return (
       <div className={styles.app}>
