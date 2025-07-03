@@ -14,6 +14,7 @@ function chunkArray<T>(arr: T[], size: number): T[][] {
 
 const FeedStats: React.FC = () => {
   const { orders, total, totalToday } = useAppSelector((state: RootState) => state.orderFeed);
+
   const ordersTyped = orders as Order[];
 
   const readyOrders = ordersTyped.filter((o) => o.status === 'done').map((o) => o.number);

@@ -31,12 +31,18 @@ const FeedPage: React.FC = () => {
       .filter((i): i is typeof ingredients[number] => Boolean(i));
   };
 
+  // Для теста: подменяем статус первого заказа на 'pending', если есть хотя бы один заказ
+  const testOrders = orders.length > 0 ? [
+    { ...orders[0], status: 'pending' },
+    ...orders.slice(1)
+  ] : orders;
+
   return (
     <div className={styles.feedWrapper}>
       <div className={styles.feedList}>
         <h1 className={styles.title}>Лента заказов</h1>
         <div className={styles.orders}>
-          {orders.map(order => (
+          {testOrders.map(order => (
             <OrderCard
               key={order._id}
               order={{
