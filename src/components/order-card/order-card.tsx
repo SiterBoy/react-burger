@@ -1,13 +1,14 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './order-card.module.css';
+import type IIngredientData from '../../types/interfaces/ingridient-data.interface';
 
 interface OrderCardProps {
   order: {
-    number: string;
+    number: string | number;
     name: string;
     date: string;
-    ingredients: string[];
+    ingredients: IIngredientData[];
     price: number;
     status: string;
   };
@@ -33,9 +34,10 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
       </div>
       <div className={styles.name}>{order.name}</div>
       <div className={styles.ingredientsRow}>
-        {/* Здесь будут иконки ингредиентов */}
         {order.ingredients.slice(0, 6).map((ing, idx) => (
-          <span key={idx} className={styles.ingredientIcon}>{ing}</span>
+          <span key={idx} className={styles.ingredientIcon}>
+            <img src={ing.image} alt={ing.name} style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid #2f2f37', objectFit: 'cover' }} />
+          </span>
         ))}
         {order.ingredients.length > 6 && (
           <span className={styles.more}>+{order.ingredients.length - 6}</span>

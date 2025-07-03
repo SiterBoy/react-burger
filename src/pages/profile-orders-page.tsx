@@ -43,7 +43,7 @@ const ProfileOrdersPage: React.FC = () => {
       <h1 className={styles.title}>История заказов</h1>
       <div className={styles.orders}>
         {testOrders.map(order => (
-          <OrderCard key={order.number} order={order} />
+          <OrderCard key={order.number} order={{ ...order, ingredients: [] }} />
         ))}
       </div>
     </div>
