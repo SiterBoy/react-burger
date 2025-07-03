@@ -1,5 +1,4 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import { Modal } from '../modal/modal';
 import OrderDetailsPage from '../../pages/order-details-page';
 

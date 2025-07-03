@@ -1,6 +1,8 @@
 import { Middleware } from '@reduxjs/toolkit';
 import type { Order } from '../slices/order-feed-slice';
 
+export const BASE_WS_URL = 'wss://norma.nomoreparties.space';
+
 interface WSActions {
   wsStart: string;
   wsSuccess: string;
@@ -9,20 +11,32 @@ interface WSActions {
   wsMessage: string;
 }
 
-export const wsMiddleware = (wsUrl: string, actions: WSActions): Middleware => {
+export const wsMiddleware = (
+  wsUrl: string | ((param?: string) => string),
+  actions: WSActions
+): Middleware => {
   return store => {
     let socket: WebSocket | null = null;
 
     return (next) => (action) => {
       const { dispatch } = store;
-      // type guard: action must have type
       if (typeof action === 'object' && action !== null && 'type' in action && typeof action.type === 'string') {
         switch (action.type) {
           case actions.wsStart:
             if (socket !== null) {
               socket.close();
             }
-            socket = new WebSocket(wsUrl);
+            let url = '';
+            let payload: string | undefined = undefined;
+            if ('payload' in action && typeof action.payload === 'string') {
+              payload = action.payload;
+            }
+            if (typeof wsUrl === 'function') {
+              url = wsUrl(payload);
+            } else {
+              url = wsUrl;
+            }
+            socket = new WebSocket(url);
 
             socket.onopen = () => dispatch({ type: actions.wsSuccess });
             socket.onerror = (event) => dispatch({ type: actions.wsError, payload: event });

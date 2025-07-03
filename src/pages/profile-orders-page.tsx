@@ -1,49 +1,65 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import OrderCard from '../components/order-card/order-card';
 import styles from './profile-orders-page.module.css';
-
-const testOrders = [
-  {
-    number: '034535',
-    name: 'Death Star Starship Main бургер',
-    date: 'Сегодня, 16:20',
-    ingredients: ['bun1', 'main1', 'sauce1', 'main2', 'main3', 'main4', 'main5', 'main6'],
-    price: 480,
-    status: 'done',
-  },
-  {
-    number: '034534',
-    name: 'Interstellar бургер',
-    date: 'Сегодня, 13:20',
-    ingredients: ['main1', 'main2', 'main3', 'main4', 'main5', 'main6'],
-    price: 560,
-    status: 'pending',
-  },
-  {
-    number: '034533',
-    name: 'Black Hole Singularity острый бургер',
-    date: 'Вчера, 13:50',
-    ingredients: ['bun2', 'main1', 'main2', 'main3', 'main4'],
-    price: 510,
-    status: 'done',
-  },
-  {
-    number: '034532',
-    name: 'Supernova Infinity бургер',
-    date: '2 дня назад, 21:53',
-    ingredients: ['bun1', 'main1', 'main2', 'main3'],
-    price: 370,
-    status: 'pending',
-  },
-];
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { wsProfileStart, wsProfileClosed } from '../store/slices/profile-orders-slice';
+import { RootState } from '../store/types';
 
 const ProfileOrdersPage: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const profileOrders = useAppSelector((state: RootState) => state.profileOrders);
+  const orders = useMemo(() => profileOrders?.orders || [], [profileOrders?.orders]);
+  const ingredients = useAppSelector((state: RootState) => state.ingredients.items);
+  const error = profileOrders?.error;
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      dispatch(wsProfileStart(accessToken));
+    }
+    return () => {
+      dispatch(wsProfileClosed());
+    };
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    console.log('ProfileOrdersPage: orders', orders);
+    console.log('ProfileOrdersPage: error', error);
+    console.log('ProfileOrdersPage: profileOrders', profileOrders);
+  }, [orders, error, profileOrders]);
+
+  const getOrderPrice = (orderIngredients: string[]) => {
+    return orderIngredients.reduce((sum, id) => {
+      const ingredient = ingredients.find(i => i._id === id);
+      return ingredient ? sum + ingredient.price : sum;
+    }, 0);
+  };
+
+  const getOrderIngredients = (orderIngredients: string[]) => {
+    return orderIngredients
+      .map(id => ingredients.find(i => i._id === id))
+      .filter((i): i is typeof ingredients[number] => Boolean(i));
+  };
+
   return (
     <div className={styles.ordersWrapper}>
       <h1 className={styles.title}>История заказов</h1>
+      {error && (
+        <div style={{ color: 'red', marginBottom: 16 }}>Ошибка WebSocket: {error}</div>
+      )}
       <div className={styles.orders}>
-        {testOrders.map(order => (
-          <OrderCard key={order.number} order={{ ...order, ingredients: [] }} />
+        {orders.map(order => (
+          <OrderCard
+            key={order._id}
+            order={{
+              number: order.number,
+              name: `Заказ #${order.number}`,
+              date: new Date(order.createdAt).toLocaleString('ru-RU', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'long' }),
+              ingredients: getOrderIngredients(order.ingredients),
+              price: getOrderPrice(order.ingredients),
+              status: order.status
+            }}
+          />
         ))}
       </div>
     </div>

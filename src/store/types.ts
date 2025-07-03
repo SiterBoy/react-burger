@@ -58,6 +58,13 @@ export interface RootState {
     wsConnected: boolean;
     error: string | null;
   };
+  profileOrders: {
+    orders: any[];
+    total: number;
+    totalToday: number;
+    wsConnected: boolean;
+    error: string | null;
+  };
 }
 
 export type AppStore = Store<RootState>;
