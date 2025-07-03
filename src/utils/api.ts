@@ -12,7 +12,6 @@ export const request = async <T>(endpoint: string, options: RequestOptions = {})
     ...(options.headers as Record<string, string> || {}),
   };
 
-  // Добавляем authorization только если токен существует
   if (accessToken) {
     headers.authorization = `Bearer ${accessToken}`;
   }

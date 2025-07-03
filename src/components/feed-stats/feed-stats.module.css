@@ -1,0 +1,45 @@
+.statsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  min-width: 400px;
+  margin-left: 40px;
+}
+.statuses {
+  display: flex;
+  gap: 40px;
+}
+.statusTitle {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.readyList, .inProgressList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ready {
+  color: #00FF00;
+  font-size: 18px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.inProgress {
+  color: #fff;
+  font-size: 18px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.totalBlock {
+  margin-top: 20px;
+}
+.totalTitle {
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+.totalValue {
+  color: #fff;
+  font-size: 56px;
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 8px #fff;
+} 

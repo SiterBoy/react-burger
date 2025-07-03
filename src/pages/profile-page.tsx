@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import { logoutUser } from '../store/slices/user-slice';
 import styles from './profile-page.module.css';
+import ProfileOrdersPage from './profile-orders-page';
+import ProfileOrderDetailsPage from './profile-order-details-page';
 
 const ProfilePage: React.FC = () => {
   const location = useLocation();
@@ -49,12 +51,11 @@ const ProfilePage: React.FC = () => {
         </button>
       </nav>
       <div className={styles.content}>
-        {location.pathname === '/profile' && (
-          <h1 className={styles.title}>Профиль</h1>
-        )}
-        {location.pathname === '/profile/orders' && (
-          <h1 className={styles.title}>История заказов</h1>
-        )}
+        <Routes>
+          <Route path="" element={<h1 className={styles.title}>Профиль</h1>} />
+          <Route path="orders" element={<ProfileOrdersPage />} />
+          <Route path="orders/:number" element={<ProfileOrderDetailsPage />} />
+        </Routes>
       </div>
     </div>
   );

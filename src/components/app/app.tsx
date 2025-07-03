@@ -19,6 +19,10 @@ import ProtectedRouteElement from '../protected-route-element';
 import ResetPasswordGuard from '../reset-password-guard/reset-password-guard';
 import styles from './app.module.css';
 import { IngredientModal } from '../ingredient-modal/ingredient-modal';
+import FeedPage from '../../pages/feed-page';
+import OrderDetailsPage from '../../pages/order-details-page';
+import OrderDetailsModal from '../order-details-modal/order-details-modal';
+import ProfileOrderDetailsModal from '../order-details-modal/profile-order-details-modal';
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -32,7 +36,6 @@ const AppRoutes = () => {
     dispatch(init());
   }, [dispatch]);
 
-  // Показываем загрузку пока не завершится инициализация
   if (!initialized || loading) {
     return (
       <div className={styles.app}>
@@ -55,6 +58,8 @@ const AppRoutes = () => {
       <main className={styles.appMain}>
         <Routes location={background || location}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/feed" element={<FeedPage />} />
+          <Route path="/feed/:number" element={<OrderDetailsPage />} />
           <Route path="/login" element={
             <ProtectedRouteElement onlyUnAuth>
               <LoginPage />
@@ -89,6 +94,8 @@ const AppRoutes = () => {
         {background && (
           <Routes>
             <Route path="/ingredients/:id" element={<IngredientModal />} />
+            <Route path="/feed/:number" element={<OrderDetailsModal />} />
+            <Route path="/profile/orders/:number" element={<ProfileOrderDetailsModal />} />
           </Routes>
         )}
       </main>

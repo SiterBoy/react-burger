@@ -51,6 +51,20 @@ export interface RootState {
   ingredientDetails: {
     ingredient: IIngredientData | null;
   };
+  orderFeed: {
+    orders: any[];
+    total: number;
+    totalToday: number;
+    wsConnected: boolean;
+    error: string | null;
+  };
+  profileOrders: {
+    orders: any[];
+    total: number;
+    totalToday: number;
+    wsConnected: boolean;
+    error: string | null;
+  };
 }
 
 export type AppStore = Store<RootState>;
