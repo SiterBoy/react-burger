@@ -11,7 +11,7 @@
   font-size: 144px;
   line-height: 1;
   margin-bottom: 16px;
-  color: #4C4CFF;
+  color: #4c4cff;
 }
 
 .text {
@@ -21,7 +21,7 @@
 }
 
 .link {
-  color: #4C4CFF;
+  color: #4c4cff;
   text-decoration: none;
   font-size: 18px;
   line-height: 24px;
@@ -29,4 +29,4 @@
 
 .link:hover {
   text-decoration: underline;
-} 
+}

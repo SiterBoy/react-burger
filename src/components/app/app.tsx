@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -36,13 +41,15 @@ const AppRoutes = () => {
   if (!initialized || loading) {
     return (
       <div className={styles.app}>
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          height: '100vh',
-          fontSize: '18px'
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+            fontSize: '18px',
+          }}
+        >
           Загрузка...
         </div>
       </div>
@@ -54,41 +61,56 @@ const AppRoutes = () => {
       <AppHeader />
       <main className={styles.appMain}>
         <Routes location={background || location}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={
-            <ProtectedRouteElement onlyUnAuth>
-              <LoginPage />
-            </ProtectedRouteElement>
-          } />
-          <Route path="/register" element={
-            <ProtectedRouteElement onlyUnAuth>
-              <RegisterPage />
-            </ProtectedRouteElement>
-          } />
-          <Route path="/forgot-password" element={
-            <ProtectedRouteElement onlyUnAuth>
-              <ForgotPasswordPage />
-            </ProtectedRouteElement>
-          } />
-          <Route path="/reset-password" element={
-            <ProtectedRouteElement onlyUnAuth>
-              <ResetPasswordGuard>
-                <ResetPasswordPage />
-              </ResetPasswordGuard>
-            </ProtectedRouteElement>
-          } />
-          <Route path="/profile/*" element={
-            <ProtectedRouteElement>
-              <ProfilePage />
-            </ProtectedRouteElement>
-          } />
-          <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path='/' element={<HomePage />} />
+          <Route
+            path='/login'
+            element={
+              <ProtectedRouteElement onlyUnAuth>
+                <LoginPage />
+              </ProtectedRouteElement>
+            }
+          />
+          <Route
+            path='/register'
+            element={
+              <ProtectedRouteElement onlyUnAuth>
+                <RegisterPage />
+              </ProtectedRouteElement>
+            }
+          />
+          <Route
+            path='/forgot-password'
+            element={
+              <ProtectedRouteElement onlyUnAuth>
+                <ForgotPasswordPage />
+              </ProtectedRouteElement>
+            }
+          />
+          <Route
+            path='/reset-password'
+            element={
+              <ProtectedRouteElement onlyUnAuth>
+                <ResetPasswordGuard>
+                  <ResetPasswordPage />
+                </ResetPasswordGuard>
+              </ProtectedRouteElement>
+            }
+          />
+          <Route
+            path='/profile/*'
+            element={
+              <ProtectedRouteElement>
+                <ProfilePage />
+              </ProtectedRouteElement>
+            }
+          />
+          <Route path='/ingredients/:id' element={<IngredientDetailsPage />} />
+          <Route path='*' element={<NotFoundPage />} />
         </Routes>
 
         {background && (
           <Routes>
-            <Route path="/ingredients/:id" element={<IngredientModal />} />
+            <Route path='/ingredients/:id' element={<IngredientModal />} />
           </Routes>
         )}
       </main>
@@ -96,7 +118,7 @@ const AppRoutes = () => {
   );
 };
 
-const App: React.FC = () =>  {
+const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Router>
@@ -104,6 +126,6 @@ const App: React.FC = () =>  {
       </Router>
     </Provider>
   );
-}
+};
 
 export default App;

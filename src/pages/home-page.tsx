@@ -5,19 +5,29 @@ import BurgerIngredients from '../components/burger-ingredients/burger-ingredien
 import BurgerConstructor from '../components/burger-constructor/burger-constructor';
 
 const HomePage: React.FC = () => {
-  const { items, loading, error } = useAppSelector((state) => state.ingredients);
+  const { items, loading, error } = useAppSelector(state => state.ingredients);
 
   if (error) {
     console.error('Ошибка загрузки ингредиентов:', error);
-    return <div style={{color: 'red', textAlign: 'center', marginTop: 40}}>Ошибка загрузки ингредиентов</div>;
+    return (
+      <div style={{ color: 'red', textAlign: 'center', marginTop: 40 }}>
+        Ошибка загрузки ингредиентов
+      </div>
+    );
   }
 
   if (loading) {
-    return <div style={{textAlign: 'center', marginTop: 40}}>Загрузка...</div>;
+    return (
+      <div style={{ textAlign: 'center', marginTop: 40 }}>Загрузка...</div>
+    );
   }
 
   if (!items || items.length === 0) {
-    return <div style={{textAlign: 'center', marginTop: 40}}>Нет ингредиентов для отображения</div>;
+    return (
+      <div style={{ textAlign: 'center', marginTop: 40 }}>
+        Нет ингредиентов для отображения
+      </div>
+    );
   }
 
   return (
@@ -32,4 +42,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage; 
+export default HomePage;

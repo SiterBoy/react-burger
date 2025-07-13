@@ -1,15 +1,18 @@
 import React, { useRef } from 'react';
-import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import IIngredientData from "../../types/interfaces/ingridient-data.interface";
+import {
+  ConstructorElement,
+  DragIcon,
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import IIngredientData from '../../types/interfaces/ingridient-data.interface';
 import styles from './burger-constructor-list-item.module.css';
 import { useDrag, useDrop } from 'react-dnd';
 
-type Ttype = 'top' | 'bottom'
+type Ttype = 'top' | 'bottom';
 
 const map: Record<Ttype, string> = {
   top: ' (верх)',
-  bottom: ' (низ)'
-}
+  bottom: ' (низ)',
+};
 
 interface DragItem {
   index: number;
@@ -22,26 +25,30 @@ interface IConstructorIngredient extends IIngredientData {
 
 interface IBurgerConstructorListItemProps {
   ingridient: IConstructorIngredient;
-  type?: "top" | "bottom";
+  type?: 'top' | 'bottom';
   isLocked?: boolean;
   index: number;
   onRemove: (uuid: string) => void;
   moveCard: (dragIndex: number, hoverIndex: number) => void;
 }
 
-const BurgerConstructorListItem: React.FC<IBurgerConstructorListItemProps> = ({ 
-  ingridient, 
-  type, 
-  isLocked, 
-  index, 
+const BurgerConstructorListItem: React.FC<IBurgerConstructorListItemProps> = ({
+  ingridient,
+  type,
+  isLocked,
+  index,
   onRemove,
-  moveCard 
+  moveCard,
 }) => {
   const { name, price, image } = ingridient;
   const finalText = type ? name + map[type] : name;
   const ref = useRef<HTMLLIElement>(null);
 
-  const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: string | symbol | null }>({
+  const [{ handlerId }, drop] = useDrop<
+    DragItem,
+    void,
+    { handlerId: string | symbol | null }
+  >({
     accept: 'ingredient',
     collect(monitor) {
       return {
@@ -60,7 +67,8 @@ const BurgerConstructorListItem: React.FC<IBurgerConstructorListItemProps> = ({
       }
 
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
       const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
 
@@ -81,7 +89,7 @@ const BurgerConstructorListItem: React.FC<IBurgerConstructorListItemProps> = ({
     item: () => {
       return { index };
     },
-    collect: (monitor) => ({
+    collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
   });
@@ -90,18 +98,18 @@ const BurgerConstructorListItem: React.FC<IBurgerConstructorListItemProps> = ({
   drag(drop(ref));
 
   return (
-    <li 
-      ref={ref} 
+    <li
+      ref={ref}
       className={styles.burgerConstructorIngridient}
       style={{ opacity }}
       data-handler-id={handlerId}
     >
       <button
         className={styles.burgerConstructorMoveButton}
-        aria-label="Open task menu"
-        aria-haspopup="true"
+        aria-label='Open task menu'
+        aria-haspopup='true'
       >
-        <DragIcon type="primary" className={styles.burgerConstructorDragIcon}/>
+        <DragIcon type='primary' className={styles.burgerConstructorDragIcon} />
       </button>
       <ConstructorElement
         text={finalText}

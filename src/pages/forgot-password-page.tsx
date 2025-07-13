@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  Button,
+  Input,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './auth-pages.module.css';
 import { request } from '../utils/api';
 
@@ -19,11 +22,14 @@ const ForgotPasswordPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const data: { success: boolean; message?: string } = await request('/password-reset', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
+      const data: { success: boolean; message?: string } = await request(
+        '/password-reset',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        }
+      );
       if (data.success) {
         localStorage.setItem('canReset', '1');
         navigate('/reset-password');
@@ -43,16 +49,21 @@ const ForgotPasswordPage: React.FC = () => {
       <h1 className={styles.title}>Восстановление пароля</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <Input
-            type="email"
-            placeholder="Укажите e-mail"
-            name="email"
-            value={email}
-            onChange={handleChange}
-            required
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
+          type='email'
+          placeholder='Укажите e-mail'
+          name='email'
+          value={email}
+          onChange={handleChange}
+          required
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
         />
-        <Button type="primary" size="medium" htmlType="submit" disabled={loading}>
+        <Button
+          type='primary'
+          size='medium'
+          htmlType='submit'
+          disabled={loading}
+        >
           {loading ? 'Отправка...' : 'Восстановить'}
         </Button>
         {error && <div style={{ color: 'red', marginTop: 16 }}>{error}</div>}
@@ -60,7 +71,7 @@ const ForgotPasswordPage: React.FC = () => {
       <div className={styles.links}>
         <p>
           Вспомнили пароль?{' '}
-          <Link to="/login" className={styles.link}>
+          <Link to='/login' className={styles.link}>
             Войти
           </Link>
         </p>
@@ -69,4 +80,4 @@ const ForgotPasswordPage: React.FC = () => {
   );
 };
 
-export default ForgotPasswordPage; 
+export default ForgotPasswordPage;

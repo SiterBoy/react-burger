@@ -8,7 +8,10 @@ interface Props {
   children: React.ReactElement;
 }
 
-const ProtectedRouteElement: React.FC<Props> = ({ onlyUnAuth = false, children }) => {
+const ProtectedRouteElement: React.FC<Props> = ({
+  onlyUnAuth = false,
+  children,
+}) => {
   const isAuth = useAppSelector((state: RootState) => state.user.isAuth);
   const location = useLocation();
 
@@ -17,10 +20,10 @@ const ProtectedRouteElement: React.FC<Props> = ({ onlyUnAuth = false, children }
   }
 
   if (!onlyUnAuth && !isAuth) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to='/login' state={{ from: location }} replace />;
   }
 
   return children;
 };
 
-export default ProtectedRouteElement; 
+export default ProtectedRouteElement;

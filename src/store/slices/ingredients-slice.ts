@@ -39,13 +39,13 @@ const ingredientsSlice = createSlice({
         state.counters[id]--;
       }
     },
-    resetCounters: (state) => {
+    resetCounters: state => {
       state.counters = {};
-    }
+    },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(fetchIngredients.pending, (state) => {
+      .addCase(fetchIngredients.pending, state => {
         state.loading = true;
         state.error = null;
       })
@@ -56,10 +56,12 @@ const ingredientsSlice = createSlice({
       })
       .addCase(fetchIngredients.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Произошла ошибка при загрузке ингредиентов';
+        state.error =
+          action.error.message || 'Произошла ошибка при загрузке ингредиентов';
       });
   },
 });
 
-export const { incrementCounter, decrementCounter, resetCounters } = ingredientsSlice.actions;
+export const { incrementCounter, decrementCounter, resetCounters } =
+  ingredientsSlice.actions;
 export default ingredientsSlice.reducer;

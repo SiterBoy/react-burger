@@ -22,7 +22,7 @@ export const DragDropWrapper: React.FC<DragDropWrapperProps> = ({
   const [{ isDragging }, drag] = useDrag({
     type,
     item: () => item,
-    collect: (monitor) => ({
+    collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
   });
@@ -34,7 +34,7 @@ export const DragDropWrapper: React.FC<DragDropWrapperProps> = ({
         onDrop(droppedItem);
       }
     },
-    collect: (monitor) => ({
+    collect: monitor => ({
       isOver: monitor.isOver(),
     }),
   });
@@ -44,7 +44,7 @@ export const DragDropWrapper: React.FC<DragDropWrapperProps> = ({
 
   return (
     <div
-      ref={(node) => {
+      ref={node => {
         drag(node);
         drop(node);
       }}
@@ -54,4 +54,4 @@ export const DragDropWrapper: React.FC<DragDropWrapperProps> = ({
       {children}
     </div>
   );
-}; 
+};

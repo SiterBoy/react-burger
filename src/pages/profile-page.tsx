@@ -29,22 +29,18 @@ const ProfilePage: React.FC = () => {
     <div className={styles.container}>
       <nav className={styles.nav}>
         <Link
-          to="/profile"
+          to='/profile'
           className={`${styles.link} ${isActive('/profile') ? styles.active : ''}`}
         >
           Профиль
         </Link>
         <Link
-          to="/profile/orders"
+          to='/profile/orders'
           className={`${styles.link} ${isActive('/profile/orders') ? styles.active : ''}`}
         >
           История заказов
         </Link>
-        <button 
-          className={styles.link} 
-          type="button"
-          onClick={handleLogout}
-        >
+        <button className={styles.link} type='button' onClick={handleLogout}>
           Выход
         </button>
       </nav>
@@ -60,5 +56,4 @@ const ProfilePage: React.FC = () => {
   );
 };
 
-export default ProfilePage; 
-
+export default ProfilePage;

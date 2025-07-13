@@ -2,17 +2,25 @@ import styles from './burger-constructor.module.css';
 import {
   CurrencyIcon,
   DragIcon,
-  ConstructorElement, Button
+  ConstructorElement,
+  Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, {useState, useMemo} from "react";
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import BurgerConstructorListItem from "../burger-constructor-list-item/burger-constructor-list-item";
-import {Modal} from "../modal/modal";
-import {OrderDetails} from "../order-details/order-details";
+import BurgerConstructorListItem from '../burger-constructor-list-item/burger-constructor-list-item';
+import { Modal } from '../modal/modal';
+import { OrderDetails } from '../order-details/order-details';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { RootState } from '../../store/types';
-import { removeIngredient, clearConstructor, moveIngredient } from '../../store/slices/constructor-slice';
-import { decrementCounter, resetCounters } from '../../store/slices/ingredients-slice';
+import {
+  removeIngredient,
+  clearConstructor,
+  moveIngredient,
+} from '../../store/slices/constructor-slice';
+import {
+  decrementCounter,
+  resetCounters,
+} from '../../store/slices/ingredients-slice';
 import { createOrder, clearOrder } from '../../store/slices/order-slice';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -21,14 +29,21 @@ const BurgerConstructor: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
-  
-  const { bun, ingredients } = useAppSelector((state: RootState) => state.burgerConstructor);
-  const { orderNumber, loading } = useAppSelector((state: RootState) => state.order);
+
+  const { bun, ingredients } = useAppSelector(
+    (state: RootState) => state.burgerConstructor
+  );
+  const { orderNumber, loading } = useAppSelector(
+    (state: RootState) => state.order
+  );
   const { isAuth } = useAppSelector((state: RootState) => state.user);
 
   const orderSum = useMemo(() => {
     const bunPrice = bun ? bun.price * 2 : 0;
-    const ingredientsPrice = ingredients.reduce((acc, current) => acc + current.price, 0);
+    const ingredientsPrice = ingredients.reduce(
+      (acc, current) => acc + current.price,
+      0
+    );
     return bunPrice + ingredientsPrice;
   }, [bun, ingredients]);
 
@@ -53,9 +68,9 @@ const BurgerConstructor: React.FC = () => {
     if (!bun) return;
 
     const ingredientIds = [
-      bun._id, 
+      bun._id,
       ...ingredients.map(ing => ing._id),
-      bun._id  
+      bun._id,
     ];
 
     try {
@@ -82,12 +97,22 @@ const BurgerConstructor: React.FC = () => {
       <section className={styles.burgerConstructorContainer}>
         <ul className={styles.burgerConstructorIngridientsList}>
           {bun && (
-            <li className={styles.burgerConstructorIngridient} key={`${bun._id}-top`}>
-              <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
-                <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon}/>
+            <li
+              className={styles.burgerConstructorIngridient}
+              key={`${bun._id}-top`}
+            >
+              <button
+                className={styles.burgerConstructorMoveButton}
+                aria-label='Open task menu'
+                aria-haspopup='true'
+              >
+                <DragIcon
+                  type={'primary'}
+                  className={styles.burgerConstructorDragIcon}
+                />
               </button>
               <ConstructorElement
-                type="top"
+                type='top'
                 isLocked={true}
                 text={`${bun.name} (верх)`}
                 price={bun.price}
@@ -98,26 +123,35 @@ const BurgerConstructor: React.FC = () => {
           )}
 
           <div className={styles.burgerConstructorIngridientsListScrollArea}>
-            {ingredients.length > 0 && (
+            {ingredients.length > 0 &&
               ingredients.map((ingredient, index) => (
-                <BurgerConstructorListItem 
+                <BurgerConstructorListItem
                   key={ingredient.uuid}
                   ingridient={ingredient}
                   index={index}
                   onRemove={handleRemoveIngredient}
                   moveCard={moveCard}
                 />
-              ))
-            )}
+              ))}
           </div>
 
           {bun && (
-            <li className={styles.burgerConstructorIngridient} key={`${bun._id}-bottom`}>
-              <button className={styles.burgerConstructorMoveButton} aria-label="Open task menu" aria-haspopup="true">
-                <DragIcon type={'primary'} className={styles.burgerConstructorDragIcon}/>
+            <li
+              className={styles.burgerConstructorIngridient}
+              key={`${bun._id}-bottom`}
+            >
+              <button
+                className={styles.burgerConstructorMoveButton}
+                aria-label='Open task menu'
+                aria-haspopup='true'
+              >
+                <DragIcon
+                  type={'primary'}
+                  className={styles.burgerConstructorDragIcon}
+                />
               </button>
               <ConstructorElement
-                type="bottom"
+                type='bottom'
                 isLocked={true}
                 text={`${bun.name} (низ)`}
                 price={bun.price}
@@ -131,12 +165,15 @@ const BurgerConstructor: React.FC = () => {
         <footer className={styles.burgerConstructorOrderSummary}>
           <div className={styles.burgerConstructorIngridientPriceContainer}>
             <span className={styles.burgerConstructorPrice}>{orderSum}</span>
-            <CurrencyIcon type={'primary'} className={styles.burgerConstructorTotalPriceIcon}/>
+            <CurrencyIcon
+              type={'primary'}
+              className={styles.burgerConstructorTotalPriceIcon}
+            />
           </div>
-          <Button 
-            htmlType="button" 
-            type="primary" 
-            size="medium" 
+          <Button
+            htmlType='button'
+            type='primary'
+            size='medium'
             onClick={handleCreateOrder}
             disabled={!canMakeOrder() || loading}
           >
@@ -144,11 +181,11 @@ const BurgerConstructor: React.FC = () => {
           </Button>
         </footer>
         <Modal isOpen={isOrderModalOpen} onClose={handleCloseModal}>
-          <OrderDetails orderId={orderNumber || 0}/>
+          <OrderDetails orderId={orderNumber || 0} />
         </Modal>
       </section>
     </DndProvider>
   );
-}
+};
 
 export default BurgerConstructor;

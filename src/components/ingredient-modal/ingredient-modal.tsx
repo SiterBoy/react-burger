@@ -6,8 +6,8 @@ import { IngredientDetails } from '../ingredient-details/ingredient-details';
 
 export const IngredientModal = () => {
   const { id } = useParams<{ id: string }>();
-  const ingredients = useAppSelector((state) => state.ingredients.items);
-  const ingredient = id ? ingredients.find((item) => item._id === id) : null;
+  const ingredients = useAppSelector(state => state.ingredients.items);
+  const ingredient = id ? ingredients.find(item => item._id === id) : null;
 
   if (!ingredient) return null;
 
@@ -16,4 +16,4 @@ export const IngredientModal = () => {
       <IngredientDetails ingredient={ingredient} />
     </Modal>
   );
-}; 
+};

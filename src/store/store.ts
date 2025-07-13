@@ -16,11 +16,11 @@ const store = configureStore({
     order: orderReducer,
     tabs: tabsReducer,
     ingredientDetails: ingredientDetailsReducer,
-    app: appReducer
+    app: appReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authMiddleware)
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(authMiddleware),
 });
 
 export { store };
-export type AppDispatch = typeof store.dispatch; 
+export type AppDispatch = typeof store.dispatch;

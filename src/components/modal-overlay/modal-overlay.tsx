@@ -2,10 +2,10 @@ import React from 'react';
 import styles from './modal-overlay.module.css';
 
 interface IModalOverlayProps {
-  onClick: () => void
-};
+  onClick: () => void;
+}
 
-const ModalOverlay: React.FC<IModalOverlayProps> = ({onClick}) => {
+const ModalOverlay: React.FC<IModalOverlayProps> = ({ onClick }) => {
   return <div className={styles.overlay} onClick={onClick} />;
 };
 

@@ -16,12 +16,13 @@ const ingredientDetailsSlice = createSlice({
     setIngredientDetails: (state, action: PayloadAction<IIngredientData>) => {
       state.ingredient = action.payload;
     },
-    clearIngredientDetails: (state) => {
+    clearIngredientDetails: state => {
       state.ingredient = null;
     },
   },
 });
 
-export const { setIngredientDetails, clearIngredientDetails } = ingredientDetailsSlice.actions;
+export const { setIngredientDetails, clearIngredientDetails } =
+  ingredientDetailsSlice.actions;
 
 export default ingredientDetailsSlice.reducer;

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  Button,
+  Input,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './auth-pages.module.css';
 import { request } from '../utils/api';
 import { useForm } from '../store/hooks';
@@ -8,7 +11,7 @@ import { useForm } from '../store/hooks';
 const ResetPasswordPage: React.FC = () => {
   const { values, handleChange } = useForm({
     password: '',
-    code: ''
+    code: '',
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -20,11 +23,17 @@ const ResetPasswordPage: React.FC = () => {
     setError(null);
     setSuccess(false);
     try {
-      const data: { success: boolean; message?: string } = await request('/password-reset/reset', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: values.password, token: values.code })
-      });
+      const data: { success: boolean; message?: string } = await request(
+        '/password-reset/reset',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            password: values.password,
+            token: values.code,
+          }),
+        }
+      );
       if (data.success) {
         setSuccess(true);
         localStorage.removeItem('canReset');
@@ -50,22 +59,31 @@ const ResetPasswordPage: React.FC = () => {
       ) : (
         <form className={styles.form} onSubmit={handleSubmit}>
           <Input
-              type="password"
-              placeholder="Введите новый пароль"
-              name="password"
-              value={values.password}
-              onChange={handleChange}
-              required
-              onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}          />
+            type='password'
+            placeholder='Введите новый пароль'
+            name='password'
+            value={values.password}
+            onChange={handleChange}
+            required
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+          />
           <Input
-              type="text"
-              placeholder="Введите код из письма"
-              name="code"
-              value={values.code}
-              onChange={handleChange}
-              required
-              onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}          />
-          <Button type="primary" size="medium" htmlType="submit" disabled={loading}>
+            type='text'
+            placeholder='Введите код из письма'
+            name='code'
+            value={values.code}
+            onChange={handleChange}
+            required
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+          />
+          <Button
+            type='primary'
+            size='medium'
+            htmlType='submit'
+            disabled={loading}
+          >
             {loading ? 'Сохранение...' : 'Сохранить'}
           </Button>
           {error && <div style={{ color: 'red', marginTop: 16 }}>{error}</div>}
@@ -74,7 +92,7 @@ const ResetPasswordPage: React.FC = () => {
       <div className={styles.links}>
         <p>
           Вспомнили пароль?{' '}
-          <Link to="/login" className={styles.link}>
+          <Link to='/login' className={styles.link}>
             Войти
           </Link>
         </p>
@@ -83,4 +101,4 @@ const ResetPasswordPage: React.FC = () => {
   );
 };
 
-export default ResetPasswordPage; 
+export default ResetPasswordPage;

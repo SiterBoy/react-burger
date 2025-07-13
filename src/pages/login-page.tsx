@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  Button,
+  Input,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAppDispatch, useAppSelector, useForm } from '../store/hooks';
 import { loginUser } from '../store/slices/user-slice';
 import { RootState } from '../store/types';
@@ -10,11 +13,13 @@ const LoginPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAuth, loading, error } = useAppSelector((state: RootState) => state.user);
+  const { isAuth, loading, error } = useAppSelector(
+    (state: RootState) => state.user
+  );
 
   const { values, handleChange } = useForm({
     email: '',
-    password: ''
+    password: '',
   });
 
   useEffect(() => {
@@ -38,9 +43,9 @@ const LoginPage: React.FC = () => {
       <h1 className={styles.title}>Вход</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <Input
-          type="email"
-          placeholder="E-mail"
-          name="email"
+          type='email'
+          placeholder='E-mail'
+          name='email'
           value={values.email}
           onChange={handleChange}
           required
@@ -48,9 +53,9 @@ const LoginPage: React.FC = () => {
           onPointerLeaveCapture={undefined}
         />
         <Input
-          type="password"
-          placeholder="Пароль"
-          name="password"
+          type='password'
+          placeholder='Пароль'
+          name='password'
           value={values.password}
           onChange={handleChange}
           required
@@ -58,10 +63,10 @@ const LoginPage: React.FC = () => {
           onPointerLeaveCapture={undefined}
         />
         {error && <p className={styles.error}>{error}</p>}
-        <Button 
-          type="primary" 
-          size="medium" 
-          htmlType="submit"
+        <Button
+          type='primary'
+          size='medium'
+          htmlType='submit'
           disabled={loading}
         >
           {loading ? 'Вход...' : 'Войти'}
@@ -70,13 +75,13 @@ const LoginPage: React.FC = () => {
       <div className={styles.links}>
         <p>
           Вы — новый пользователь?{' '}
-          <Link to="/register" className={styles.link}>
+          <Link to='/register' className={styles.link}>
             Зарегистрироваться
           </Link>
         </p>
         <p>
           Забыли пароль?{' '}
-          <Link to="/forgot-password" className={styles.link}>
+          <Link to='/forgot-password' className={styles.link}>
             Восстановить пароль
           </Link>
         </p>
@@ -85,4 +90,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage; 
+export default LoginPage;

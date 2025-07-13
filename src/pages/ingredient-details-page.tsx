@@ -6,8 +6,10 @@ import { IngredientDetails } from '../components/ingredient-details/ingredient-d
 
 const IngredientDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const ingredients = useAppSelector((state) => state.ingredients.items);
-  const ingredient = ingredients.find((item: IIngredientData) => item._id === id);
+  const ingredients = useAppSelector(state => state.ingredients.items);
+  const ingredient = ingredients.find(
+    (item: IIngredientData) => item._id === id
+  );
 
   if (!ingredient) {
     return <div>Ингредиент не найден</div>;
@@ -16,4 +18,4 @@ const IngredientDetailsPage: React.FC = () => {
   return <IngredientDetails ingredient={ingredient} />;
 };
 
-export default IngredientDetailsPage; 
+export default IngredientDetailsPage;
