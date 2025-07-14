@@ -1,0 +1,45 @@
+.feedWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+.feedList {
+  flex: 1;
+  min-width: 400px;
+}
+.title {
+  color: #fff;
+  font-size: 36px;
+  margin-bottom: 32px;
+}
+.orders {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 88px - 40px - 60px - 97px);
+  overflow-y: scroll;
+  padding-left: 8px;
+  padding-right: 8px;
+  gap: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #8585ad #2f2f37;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.orders::-webkit-scrollbar {
+  width: 8px;
+}
+.orders::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  border-radius: 4px;
+}
+.orders::-webkit-scrollbar-track {
+  background: #2f2f37;
+  border-radius: 4px;
+} 

@@ -1,0 +1,98 @@
+.card {
+  background: #1c1c21;
+  border-radius: 16px;
+  padding: 24px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: box-shadow 0.2s;
+}
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  color: #8585ad;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.number {
+  font-family: 'JetBrains Mono', monospace;
+}
+.date {
+  font-size: 14px;
+}
+.name {
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+.ingredientsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.ingredientIcon {
+  width: 40px;
+  height: 40px;
+  background: #222;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+  border: 2px solid #2f2f37;
+}
+.more {
+  color: #8585ad;
+  font-size: 16px;
+  margin-left: 4px;
+}
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.price {
+  color: #fff;
+  font-size: 20px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.currency {
+  font-size: 20px;
+}
+.statusDone {
+  color: #00FF00;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.statusPending {
+  color: #FFD600;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.statusCreated {
+  color: #8585ad;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.statusCanceled {
+  color: #FF1744;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.statusDefault {
+  color: #8585ad;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.ingredientImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #2f2f37;
+  object-fit: cover;
+} 
