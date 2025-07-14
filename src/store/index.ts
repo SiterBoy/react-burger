@@ -7,15 +7,15 @@ import tabsReducer from './slices/tabs-slice';
 import userReducer from './slices/user-slice';
 
 export const store = configureStore({
-    reducer: { 
-        ingredients: ingredientsReducer, 
-        burgerConstructor: constructorReducer,
-        ingredientDetails: ingredientDetailsReducer,
-        order: orderReducer,
-        tabs: tabsReducer,
-        user: userReducer,
-    },
-    devTools: process.env.NODE_ENV !== 'production'
+  reducer: {
+    ingredients: ingredientsReducer,
+    burgerConstructor: constructorReducer,
+    ingredientDetails: ingredientDetailsReducer,
+    order: orderReducer,
+    tabs: tabsReducer,
+    user: userReducer,
+  },
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  Button,
+  Input,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAppDispatch, useAppSelector, useForm } from '../store/hooks';
 import { registerUser } from '../store/slices/user-slice';
 import { RootState } from '../store/types';
@@ -14,7 +17,7 @@ const RegisterPage: React.FC = () => {
   const { values, handleChange } = useForm({
     name: '',
     email: '',
-    password: ''
+    password: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -32,9 +35,9 @@ const RegisterPage: React.FC = () => {
       <h1 className={styles.title}>Регистрация</h1>
       <form className={styles.form} onSubmit={handleSubmit}>
         <Input
-          type="text"
-          placeholder="Имя"
-          name="name"
+          type='text'
+          placeholder='Имя'
+          name='name'
           value={values.name}
           onChange={handleChange}
           required
@@ -42,9 +45,9 @@ const RegisterPage: React.FC = () => {
           onPointerLeaveCapture={undefined}
         />
         <Input
-          type="email"
-          placeholder="E-mail"
-          name="email"
+          type='email'
+          placeholder='E-mail'
+          name='email'
           value={values.email}
           onChange={handleChange}
           required
@@ -52,9 +55,9 @@ const RegisterPage: React.FC = () => {
           onPointerLeaveCapture={undefined}
         />
         <Input
-          type="password"
-          placeholder="Пароль"
-          name="password"
+          type='password'
+          placeholder='Пароль'
+          name='password'
           value={values.password}
           onChange={handleChange}
           required
@@ -62,10 +65,10 @@ const RegisterPage: React.FC = () => {
           onPointerLeaveCapture={undefined}
         />
         {error && <p className={styles.error}>{error}</p>}
-        <Button 
-          type="primary" 
-          size="medium" 
-          htmlType="submit"
+        <Button
+          type='primary'
+          size='medium'
+          htmlType='submit'
           disabled={loading}
         >
           {loading ? 'Регистрация...' : 'Зарегистрироваться'}
@@ -74,7 +77,7 @@ const RegisterPage: React.FC = () => {
       <div className={styles.links}>
         <p>
           Уже зарегистрированы?{' '}
-          <Link to="/login" className={styles.link}>
+          <Link to='/login' className={styles.link}>
             Войти
           </Link>
         </p>
@@ -83,4 +86,4 @@ const RegisterPage: React.FC = () => {
   );
 };
 
-export default RegisterPage; 
+export default RegisterPage;

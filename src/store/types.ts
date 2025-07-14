@@ -68,4 +68,4 @@ export interface RootState {
 }
 
 export type AppStore = Store<RootState>;
-export type AppDispatch = AppStore['dispatch']; 
+export type AppDispatch = AppStore['dispatch'];

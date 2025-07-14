@@ -1,22 +1,21 @@
-
 .appMain {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    max-width: 1240px;
-    margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1240px;
+  margin: 0 auto;
 }
 
 @media (max-width: 1024px) {
-    .appMain {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
+  .appMain {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
 }
 
 @media (max-width: 767px) {
-    .appMain {
-        padding: 10px;
-    }
+  .appMain {
+    padding: 10px;
+  }
 }

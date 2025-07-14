@@ -1,164 +1,165 @@
 .burgerConstructorContainer {
-    padding-top: 100px;
-    max-width: 600px;
-    width: 100%;
-    box-sizing: border-box;
+  padding-top: 100px;
+  max-width: 600px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .burgerConstructorIngridientsList {
-    max-width: 568px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    list-style: none;
-    padding: 0;
+  max-width: 568px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
 }
 
 .burgerConstructorIngridient {
-    display: flex;
-    justify-content: space-between;
-    height: 80px;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  justify-content: space-between;
+  height: 80px;
+  align-items: center;
+  gap: 8px;
 }
 
 .burgerConstructorIngridientsListScrollArea {
-    max-height: calc(656px - 200px);
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  max-height: calc(656px - 200px);
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-
 .burgerConstructorCard {
-    background-color: #1C1C21;
-    display: flex;
-    justify-content: space-between;
-    padding: 16px 32px 16px 24px;
-    border-radius: 40px;
-    gap: 20px;
-    max-width: 536px;
-    box-sizing: border-box;
+  background-color: #1c1c21;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 32px 16px 24px;
+  border-radius: 40px;
+  gap: 20px;
+  max-width: 536px;
+  box-sizing: border-box;
 }
 
 .burgerConstructorIngridientImg {
-    display: block;
+  display: block;
 }
 
 .burgerConstructorIngridientName {
-    font-size: 16px;
-    line-height: 24px;
-    font-family: 'JetBrains Mono', monospace;
-    display: block;
-    width: 254px;
-    height: 48px;
+  font-size: 16px;
+  line-height: 24px;
+  font-family: 'JetBrains Mono', monospace;
+  display: block;
+  width: 254px;
+  height: 48px;
 }
 
 .burgerConstructorIngridientPriceConstainer {
-    gap: 10px;
-    height: 24px;
-    display: flex;
-    align-self: center;
+  gap: 10px;
+  height: 24px;
+  display: flex;
+  align-self: center;
 }
 
 .burgerConstructorIngridientPrice {
-    font-size: 28px;
-    line-height: 24px;
-    font-weight: 400;
-    font-family: 'Iceland', monospace;
+  font-size: 28px;
+  line-height: 24px;
+  font-weight: 400;
+  font-family: 'Iceland', monospace;
 }
 
 .burgerConstructorMoveButton {
-    width: 32px;
+  width: 32px;
 }
 
 .burgerConstructorIngridient:first-child .burgerConstructorMoveButton,
 .burgerConstructorIngridient:last-child .burgerConstructorMoveButton {
-    visibility: hidden;
+  visibility: hidden;
 }
 
-
 .burgerConstructorIngridient:first-child .burgerConstructorCard {
-    border-radius: 88px 88px 40px 40px;
+  border-radius: 88px 88px 40px 40px;
 }
 
 .burgerConstructorIngridient:last-child .burgerConstructorCard {
-    border-radius: 40px 40px 88px 88px;
+  border-radius: 40px 40px 88px 88px;
 }
 
 .burgerConstructorOrderSummary {
-    margin-top: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 40px;
-    margin-right: 16px;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 40px;
+  margin-right: 16px;
 }
 
 .burgerConstructorPrice {
-    font-family: 'Iceland', monospace;
-    font-size: 48px;
-    line-height: 36px;
-    font-weight: 400;
-    margin-right: 10px;
-    color: #F2F2F3;
+  font-family: 'Iceland', monospace;
+  font-size: 48px;
+  line-height: 36px;
+  font-weight: 400;
+  margin-right: 10px;
+  color: #f2f2f3;
 }
 
 .burgerConstructorButton {
-    background: linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%);
-    padding: 20px 40px;
-    color: #F2F2F3;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    font-family: 'JetBrains Mono', monospace;
-    border-radius: 64px;
-    box-shadow: 0px 4px 32px 0px #3333FF80, 0px 0px 8px 8px #3333FF40, 0px 0px 16px 8px #3333FF40;
+  background: linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%);
+  padding: 20px 40px;
+  color: #f2f2f3;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  font-family: 'JetBrains Mono', monospace;
+  border-radius: 64px;
+  box-shadow:
+    0px 4px 32px 0px #3333ff80,
+    0px 0px 8px 8px #3333ff40,
+    0px 0px 16px 8px #3333ff40;
 }
-.scrollAreaGap{
-    width: 15px;
+.scrollAreaGap {
+  width: 15px;
 }
 
 @media (max-width: 1024px) {
-    .burgerConstructorContainer {
-        padding-top: 40px;
-    }
+  .burgerConstructorContainer {
+    padding-top: 40px;
+  }
 
-    .burgerConstructorIngridientsList {
-        max-width: 100%;
-        max-height: 50vh;
-    }
+  .burgerConstructorIngridientsList {
+    max-width: 100%;
+    max-height: 50vh;
+  }
 }
 
 @media (max-width: 767px) {
-    .burgerConstructorContainer {
-        padding-top: 20px;
-    }
+  .burgerConstructorContainer {
+    padding-top: 20px;
+  }
 
-    .burgerConstructorIngridientsList {
-        max-height: 40vh;
-        margin: 0 8px;
-    }
+  .burgerConstructorIngridientsList {
+    max-height: 40vh;
+    margin: 0 8px;
+  }
 
-    .burgerConstructorCard {
-        padding: 12px 16px;
-        gap: 10px;
-    }
+  .burgerConstructorCard {
+    padding: 12px 16px;
+    gap: 10px;
+  }
 
-    .burgerConstructorIngridientName {
-        width: auto;
-        height: auto;
-    }
+  .burgerConstructorIngridientName {
+    width: auto;
+    height: auto;
+  }
 
-    .burgerConstructorOrderSummary {
-        margin-right: 8px;
-        gap: 20px;
-    }
+  .burgerConstructorOrderSummary {
+    margin-right: 8px;
+    gap: 20px;
+  }
 
-    .burgerConstructorButton {
-        padding: 16px 24px;
-        font-size: 14px;
-    }
+  .burgerConstructorButton {
+    padding: 16px 24px;
+    font-size: 14px;
+  }
 }

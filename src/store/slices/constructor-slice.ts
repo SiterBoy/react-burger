@@ -32,17 +32,17 @@ const constructorSlice = createSlice({
         return {
           payload: {
             ...ingredient,
-            uuid: uuidv4()
-          }
+            uuid: uuidv4(),
+          },
         };
-      }
+      },
     },
     removeIngredient: (state, action: PayloadAction<string>) => {
       if (state.bun && state.bun._id === action.payload) {
         state.bun = null;
       } else {
         state.ingredients = state.ingredients.filter(
-          (ingredient) => ingredient.uuid !== action.payload
+          ingredient => ingredient.uuid !== action.payload
         );
       }
     },
@@ -55,7 +55,7 @@ const constructorSlice = createSlice({
       state.ingredients.splice(dragIndex, 1);
       state.ingredients.splice(hoverIndex, 0, draggedItem);
     },
-    clearConstructor: (state) => {
+    clearConstructor: state => {
       state.bun = null;
       state.ingredients = [];
     },

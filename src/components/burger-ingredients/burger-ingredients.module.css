@@ -1,131 +1,129 @@
 .burgerIngredientsContainer {
-    max-width: 600px;
-    width: 100%;
-    padding-top: 40px;
-    box-sizing: border-box;
+  max-width: 600px;
+  width: 100%;
+  padding-top: 40px;
+  box-sizing: border-box;
 }
 
 .burgerIngredientsTabs {
-    margin-bottom: 40px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    color: #8585AD;
-    font-size: 16px;
-    line-height: 24px;
-    background-color: #131316;
-    font-family: 'JetBrains Mono', monospace;
-
+  margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  color: #8585ad;
+  font-size: 16px;
+  line-height: 24px;
+  background-color: #131316;
+  font-family: 'JetBrains Mono', monospace;
 }
 
-
 .burgerIngredientsTabActive {
-    color: #F2F2F3;
-    border-bottom: 2px solid #4C4CFF;
+  color: #f2f2f3;
+  border-bottom: 2px solid #4c4cff;
 }
 
 .burgerIngredientsCategoryTitle {
-    margin-bottom: 24px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 24px;
-    line-height: 30px;
-    font-weight: 700;
+  margin-bottom: 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 700;
 }
 
 .burgerIngredientsItems {
-    padding: 0 16px;
-    margin-bottom: 40px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    row-gap: 32px;
-    column-gap: 24px;
-    overflow-y: scroll;
-    list-style: none;
+  padding: 0 16px;
+  margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  row-gap: 32px;
+  column-gap: 24px;
+  overflow-y: scroll;
+  list-style: none;
 }
 
 .ingredientImage {
-    max-width: 240px;
-    height: 120px;
-    display: block;
-    margin: 0 auto;
+  max-width: 240px;
+  height: 120px;
+  display: block;
+  margin: 0 auto;
 }
 
 .ingredientPriceBlock {
-    display: flex;
-    width: 62px;
-    height: 24px;
-    justify-content: space-between;
-    margin: 0 auto;
+  display: flex;
+  width: 62px;
+  height: 24px;
+  justify-content: space-between;
+  margin: 0 auto;
 }
 
 .ingredientPrice {
-    display: block;
-    color: #F2F2F3;
-    font-size: 28px;
-    line-height: 24px;
-    text-align: center;
-    font-family: 'Iceland', monospace;
+  display: block;
+  color: #f2f2f3;
+  font-size: 28px;
+  line-height: 24px;
+  text-align: center;
+  font-family: 'Iceland', monospace;
 }
 
 .ingredientName {
-    max-width: 272px;
-    height: 48px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  max-width: 272px;
+  height: 48px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ingredientCurrencyIcon {
-    width: 24px;
-    height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 .ingredient {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-sizing: border-box;
-    cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 
 .ingredientCounter {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #4C4CFF;
-    color: white;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    font-weight: 400;
-    line-height: 24px;
-    font-family: 'Iceland', monospace;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #4c4cff;
+  color: white;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 24px;
+  font-family: 'Iceland', monospace;
 }
 
 .burgerIngredientsList {
-    max-height: calc(100vh - 88px - 40px - 60px - 97px);
-    overflow-y: scroll;
+  max-height: calc(100vh - 88px - 40px - 60px - 97px);
+  overflow-y: scroll;
 }
 
 @media (max-width: 767px) {
-    .burgerIngredientsContainer {
-        padding-top: 20px;
-    }
+  .burgerIngredientsContainer {
+    padding-top: 20px;
+  }
 
-    .burgerIngredientsItems {
-        grid-template-columns: 1fr;
-        padding: 0 8px;
-    }
+  .burgerIngredientsItems {
+    grid-template-columns: 1fr;
+    padding: 0 8px;
+  }
 
-    .burgerIngredientsList {
-        max-height: calc(100vh - 60px - 20px - 40px - 80px);
-    }
+  .burgerIngredientsList {
+    max-height: calc(100vh - 60px - 20px - 40px - 80px);
+  }
 }

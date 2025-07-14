@@ -4,19 +4,87 @@ body {
   height: 100vh;
 }
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -25,7 +93,8 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-ol, ul {
+ol,
+ul {
   list-style: none;
 }
 
@@ -56,10 +125,9 @@ body {
   line-height: 1;
 }
 
-
-h1{
+h1 {
   font-family: 'JetBrains Mono', monospace;
-  color: #F2F2F3;
+  color: #f2f2f3;
   font-size: 36px;
   line-height: 40px;
   font-weight: 700;
@@ -71,11 +139,11 @@ h1{
 }
 
 *::-webkit-scrollbar-track {
-  background: #2F2F37;
+  background: #2f2f37;
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #8585AD;
+  background: #8585ad;
   border-radius: 4px;
 }
 
@@ -85,5 +153,5 @@ h1{
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #8585AD #2F2F37;
+  scrollbar-color: #8585ad #2f2f37;
 }

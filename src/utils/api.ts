@@ -4,12 +4,15 @@ interface RequestOptions extends RequestInit {
   headers?: HeadersInit;
 }
 
-export const request = async <T>(endpoint: string, options: RequestOptions = {}): Promise<T> => {
+export const request = async <T>(
+  endpoint: string,
+  options: RequestOptions = {}
+): Promise<T> => {
   const accessToken = localStorage.getItem('accessToken');
-  
+
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...(options.headers as Record<string, string> || {}),
+    ...((options.headers as Record<string, string>) || {}),
   };
 
   if (accessToken) {
@@ -27,4 +30,4 @@ export const request = async <T>(endpoint: string, options: RequestOptions = {})
   }
 
   return response.json();
-}; 
+};
