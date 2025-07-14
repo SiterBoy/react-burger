@@ -8,7 +8,7 @@ interface IOrderDetailsProps {
 export const OrderDetails: React.FC<IOrderDetailsProps> = ({ orderId }) => {
   return (
     <div className={styles.wrapper}>
-      <p className='text text_type_digits-large mb-8'>{orderId}</p>
+      <p className={styles.orderNumber} data-testid='order-details-number'>{orderId}</p>
       <p className='text text_type_main-medium'>идентификатор заказа</p>
       <img src='/images/done.png' alt='Order is done' className='mt-15 mb-15' />
       <p className='text text_type_main-default mb-2'>

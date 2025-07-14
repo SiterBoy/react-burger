@@ -12,7 +12,7 @@ export const IngredientDetails: React.FC<
   if (!ingredient) return null;
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} data-testid='ingredient-modal'>
       <h2 className='text text_type_main-large'>Детали ингридиента</h2>
       <img
         src={ingredient.image_large}

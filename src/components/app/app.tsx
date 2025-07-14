@@ -6,6 +6,8 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { store } from '../../store/store';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchIngredients } from '../../store/slices/ingredients-slice';
@@ -121,9 +123,11 @@ const AppRoutes = () => {
 const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <Router>
-        <AppRoutes />
-      </Router>
+      <DndProvider backend={HTML5Backend}>
+        <Router>
+          <AppRoutes />
+        </Router>
+      </DndProvider>
     </Provider>
   );
 };

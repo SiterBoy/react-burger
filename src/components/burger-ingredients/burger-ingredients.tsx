@@ -95,7 +95,10 @@ const BurgerIngredients: React.FC = () => {
         <h2 data-type={type} className={styles.burgerIngredientsCategoryTitle}>
           {category.title}
         </h2>
-        <ul className={styles.burgerIngredientsItems}>
+        <ul
+          className={styles.burgerIngredientsItems}
+          data-testid={`ingredients-${type}`}
+        >
           {category.items.map((item: IIngredientData) => (
             <BurgerIngredientsListItem
               key={item._id}

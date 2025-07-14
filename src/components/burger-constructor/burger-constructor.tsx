@@ -5,8 +5,9 @@ import {
   ConstructorElement,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDrop } from 'react-dnd';
 import BurgerConstructorListItem from '../burger-constructor-list-item/burger-constructor-list-item';
 import { Modal } from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
@@ -16,19 +17,21 @@ import {
   removeIngredient,
   clearConstructor,
   moveIngredient,
+  addIngredient,
 } from '../../store/slices/constructor-slice';
 import {
   decrementCounter,
   resetCounters,
+  incrementCounter,
 } from '../../store/slices/ingredients-slice';
 import { createOrder, clearOrder } from '../../store/slices/order-slice';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import IIngredientData from '../../types/interfaces/ingridient-data.interface';
 
 const BurgerConstructor: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const ref = useRef<HTMLElement>(null);
 
   const { bun, ingredients } = useAppSelector(
     (state: RootState) => state.burgerConstructor
@@ -37,6 +40,17 @@ const BurgerConstructor: React.FC = () => {
     (state: RootState) => state.order
   );
   const { isAuth } = useAppSelector((state: RootState) => state.user);
+
+  const [{ isOver }, dropRef] = useDrop({
+    accept: 'ingredient',
+    drop: (item: IIngredientData) => {
+      dispatch(addIngredient(item));
+      dispatch(incrementCounter(item._id));
+    },
+    collect: monitor => ({
+      isOver: monitor.isOver(),
+    }),
+  });
 
   const orderSum = useMemo(() => {
     const bunPrice = bun ? bun.price * 2 : 0;
@@ -92,99 +106,113 @@ const BurgerConstructor: React.FC = () => {
     dispatch(moveIngredient({ dragIndex, hoverIndex }));
   };
 
+  // Подключаем drop ref к элементу
+  dropRef(ref);
+
+  const backgroundColor = isOver ? 'rgba(76, 76, 255, 0.1)' : 'transparent';
+
   return (
-    <DndProvider backend={HTML5Backend}>
-      <section className={styles.burgerConstructorContainer}>
-        <ul className={styles.burgerConstructorIngridientsList}>
-          {bun && (
-            <li
-              className={styles.burgerConstructorIngridient}
-              key={`${bun._id}-top`}
-            >
-              <button
-                className={styles.burgerConstructorMoveButton}
-                aria-label='Open task menu'
-                aria-haspopup='true'
-              >
-                <DragIcon
-                  type={'primary'}
-                  className={styles.burgerConstructorDragIcon}
-                />
-              </button>
-              <ConstructorElement
-                type='top'
-                isLocked={true}
-                text={`${bun.name} (верх)`}
-                price={bun.price}
-                thumbnail={bun.image}
-              />
-              <div className={styles.scrollAreaGap}></div>
-            </li>
-          )}
-
-          <div className={styles.burgerConstructorIngridientsListScrollArea}>
-            {ingredients.length > 0 &&
-              ingredients.map((ingredient, index) => (
-                <BurgerConstructorListItem
-                  key={ingredient.uuid}
-                  ingridient={ingredient}
-                  index={index}
-                  onRemove={handleRemoveIngredient}
-                  moveCard={moveCard}
-                />
-              ))}
-          </div>
-
-          {bun && (
-            <li
-              className={styles.burgerConstructorIngridient}
-              key={`${bun._id}-bottom`}
-            >
-              <button
-                className={styles.burgerConstructorMoveButton}
-                aria-label='Open task menu'
-                aria-haspopup='true'
-              >
-                <DragIcon
-                  type={'primary'}
-                  className={styles.burgerConstructorDragIcon}
-                />
-              </button>
-              <ConstructorElement
-                type='bottom'
-                isLocked={true}
-                text={`${bun.name} (низ)`}
-                price={bun.price}
-                thumbnail={bun.image}
-              />
-              <div className={styles.scrollAreaGap}></div>
-            </li>
-          )}
-        </ul>
-
-        <footer className={styles.burgerConstructorOrderSummary}>
-          <div className={styles.burgerConstructorIngridientPriceContainer}>
-            <span className={styles.burgerConstructorPrice}>{orderSum}</span>
-            <CurrencyIcon
-              type={'primary'}
-              className={styles.burgerConstructorTotalPriceIcon}
-            />
-          </div>
-          <Button
-            htmlType='button'
-            type='primary'
-            size='medium'
-            onClick={handleCreateOrder}
-            disabled={!canMakeOrder() || loading}
+    <section
+      ref={ref}
+      className={styles.burgerConstructorContainer}
+      style={{ backgroundColor }}
+      data-testid='constructor'
+    >
+      <ul className={styles.burgerConstructorIngridientsList}>
+        {bun && (
+          <li
+            className={styles.burgerConstructorIngridient}
+            key={`${bun._id}-top`}
+            data-testid='bun-top'
           >
-            {loading ? 'Загрузка...' : 'Оформить заказ'}
-          </Button>
-        </footer>
-        <Modal isOpen={isOrderModalOpen} onClose={handleCloseModal}>
-          <OrderDetails orderId={orderNumber || 0} />
-        </Modal>
-      </section>
-    </DndProvider>
+            <button
+              className={styles.burgerConstructorMoveButton}
+              aria-label='Open task menu'
+              aria-haspopup='true'
+            >
+              <DragIcon
+                type={'primary'}
+                className={styles.burgerConstructorDragIcon}
+              />
+            </button>
+            <ConstructorElement
+              type='top'
+              isLocked={true}
+              text={`${bun.name} (верх)`}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+            <div className={styles.scrollAreaGap}></div>
+          </li>
+        )}
+
+        <div
+          className={styles.burgerConstructorIngridientsListScrollArea}
+          data-testid='ingredients-area'
+        >
+          {ingredients.length > 0 &&
+            ingredients.map((ingredient, index) => (
+              <BurgerConstructorListItem
+                key={ingredient.uuid}
+                ingridient={ingredient}
+                index={index}
+                onRemove={handleRemoveIngredient}
+                moveCard={moveCard}
+              />
+            ))}
+        </div>
+
+        {bun && (
+          <li
+            className={styles.burgerConstructorIngridient}
+            key={`${bun._id}-bottom`}
+            data-testid='bun-bottom'
+          >
+            <button
+              className={styles.burgerConstructorMoveButton}
+              aria-label='Open task menu'
+              aria-haspopup='true'
+            >
+              <DragIcon
+                type={'primary'}
+                className={styles.burgerConstructorDragIcon}
+              />
+            </button>
+            <ConstructorElement
+              type='bottom'
+              isLocked={true}
+              text={`${bun.name} (низ)`}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+            <div className={styles.scrollAreaGap}></div>
+          </li>
+        )}
+      </ul>
+
+      <footer className={styles.burgerConstructorOrderSummary}>
+        <div className={styles.burgerConstructorIngridientPriceContainer}>
+          <span className={styles.burgerConstructorPrice}>{orderSum}</span>
+          <CurrencyIcon
+            type={'primary'}
+            className={styles.burgerConstructorTotalPriceIcon}
+          />
+        </div>
+        <Button
+          htmlType='button'
+          type='primary'
+          size='medium'
+          onClick={handleCreateOrder}
+          disabled={!canMakeOrder() || loading}
+          data-testid='order-button'
+        >
+          {loading ? 'Загрузка...' : 'Оформить заказ'}
+        </Button>
+      </footer>
+      <Modal isOpen={isOrderModalOpen} onClose={handleCloseModal}>
+        <OrderDetails orderId={orderNumber || 0} />
+      </Modal>
+    </section>
   );
 };
 
