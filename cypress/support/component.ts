@@ -30,6 +30,7 @@ declare global {
   }
 }
 
+// @ts-ignore
 Cypress.Commands.add('mount', mount);
 
 // Example use:

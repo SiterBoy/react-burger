@@ -131,7 +131,7 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <DndProvider backend={HTML5Backend}>
-        <Router basename="/react-burger">
+        <Router basename="/">
           <AppRoutes />
         </Router>
       </DndProvider>
